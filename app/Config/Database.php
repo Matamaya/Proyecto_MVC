@@ -7,6 +7,7 @@ class Database {
 
     private function __construct() {
         try {
+            // Data Source Name
             $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8";
             $this->conn = new PDO($dsn, DB_USER, DB_PASS);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -5,26 +5,22 @@
 require_once '../app/Config/config.php';
 require_once '../app/Config/Database.php';
 
-// Cargar Controladores (Normalmente esto se hace con Autoload, pero manual sirve por ahora)
-require_once '../app/Controllers/PostController.php';
+// Autocarga de Clases (carga los archivos automáticamente cuando los necesitas)
+spl_autoload_register(function ($class_name) {
+    // Definir dónde buscar las clases
+    $directories = [
+        '../app/',
+        '../app/Controllers/',
+        '../app/Models/'
+    ];
+    
+    foreach ($directories as $directory) {
+        if (file_exists($directory . $class_name . '.php')) {
+            require_once $directory . $class_name . '.php';
+            return;
+        }
+    }
+});
 
-// Obtener la URL
-$url = $_GET['url'] ?? '/';
-$url = rtrim($url, '/');
-$url = explode('/', $url);
-
-// Enrutamiento Básico
-switch ($url[0]) {
-    case '':
-    case 'home':
-        $controller = new PostController();
-        $controller->index();
-        break;
-
-    // Aquí agregaremos 'login' y 'register' más adelante
-        
-    default:
-        http_response_code(404);
-        echo "404 - Página no encontrada";
-        break;
-}
+// Iniciar el Router
+$init = new Router();
