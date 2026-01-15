@@ -1,11 +1,9 @@
 <?php
-// public/index.php
-
 // Cargar Configuración y Base de Datos
 require_once '../app/Config/config.php';
 require_once '../app/Config/Database.php';
 
-// Autocarga de Clases (carga los archivos automáticamente cuando los necesitas)
+// Autocarga de Clases (carga los archivos automáticamente)
 spl_autoload_register(function ($class_name) {
     // Definir dónde buscar las clases
     $directories = [

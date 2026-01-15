@@ -1,6 +1,4 @@
 <?php
-// app/Controllers/AboutController.php
-
 class AboutController {
     public function index() {
         // Renderizar la vista

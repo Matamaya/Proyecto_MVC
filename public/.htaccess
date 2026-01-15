@@ -5,6 +5,6 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     
-    # Si no, mándalo todo a index.php pasando la URL como parámetro
+    # Si no, mandar todo a index.php pasando la URL como parámetro
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
