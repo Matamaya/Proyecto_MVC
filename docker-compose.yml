@@ -1,9 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Servicio Web (Mi página web)
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: mvc_app
     ports:
       - "8080:80"
@@ -11,6 +13,9 @@ services:
       - .:/var/www/html # Sincroniza la carpeta local con el contenedor
     depends_on:
       - db
+    networks:
+      - mvc_net
+
   # Servicio de Base de Datos
   db:
     image: mysql:8.0
@@ -22,16 +27,49 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mvc_net
 
   # Agregamos esto para gestionar la BD visualmente TODO: es necesario? Pq igual estamso usando MySQL
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: mvc_pma
+    restart: unless-stopped
     links:
       - db
     environment:
       PMA_HOST: db
+      PMA_USER: user
+      PMA_PASSWORD: password
     ports:
       - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - mvc_net
 
+  n8n:
+    image: n8nio/n8n
+    container_name: mvc_n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Europe/Madrid
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin123
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - mvc_net
+
+volumes:
+  db_data:
+  n8n_data:
+networks:
+  mvc_net:
+    driver: bridge
 ## levantar el entorno con: docker-compose up -d --build

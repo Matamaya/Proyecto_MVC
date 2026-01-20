@@ -1,28 +1,34 @@
 <?php
 
 class Router {
-    protected $controller = 'PostController'; // Controlador por defecto (Home)
-    protected $method = 'index';              // Método por defecto
-    protected $params = [];                   // Parámetros (ej: id del robot)
+    protected $controller = 'PostController';
+    protected $method = 'index';
+    protected $params = [];
 
     public function __construct() {
         $url = $this->getUrl();
 
-        // 1. Buscar si existe el controlador en la URL (ej: /user/...)
-        // La primera parte de la URL se asume como controlador
+        // 1. Limpiar 'public' de la URL si aparece
+        if (isset($url[0]) && $url[0] === 'public') {
+            array_shift($url);
+        }
+
+        // 2. Buscar Controlador
         if (isset($url[0])) {
             $controllerName = ucfirst($url[0]) . 'Controller';
-            if (file_exists('../app/Controllers/' . $controllerName . '.php')) {
+            
+            // USO DE __DIR__: Esto busca en "app/Controllers/" directamente
+            if (file_exists(__DIR__ . '/Controllers/' . $controllerName . '.php')) {
                 $this->controller = $controllerName;
                 unset($url[0]);
             }
         }
 
-        // Importar el controlador
-        require_once '../app/Controllers/' . $this->controller . '.php';
+        // 3. Importar el controlador (Ruta absoluta)
+        require_once __DIR__ . '/Controllers/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
-        // 2. Buscar el método (ej: /user/edit/...)
+        // 4. Buscar Método
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
                 $this->method = $url[1];
@@ -30,20 +36,18 @@ class Router {
             }
         }
 
-        // 3. Los parámetros restantes (ej: el ID del robot)
+        // 5. Parámetros
         $this->params = $url ? array_values($url) : [];
 
-        // Llama al método del controlador con los parámetros
         call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
-    // Función auxiliar para trocear la URL
     public function getUrl() {
         if (isset($_GET['url'])) {
             $url = rtrim($_GET['url'], '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
             return explode('/', $url);
         }
-        return []; // Retorna array vacío si estamos en la home
+        return [];
     }
 }
