@@ -36,6 +36,42 @@ CREATE TABLE posts (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
+
+-- 1. Crear la tabla 'comments' (si no existe)
+CREATE TABLE IF NOT EXISTS comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Relaciones: Si se borra el usuario o el post, se borra el comentario
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+);
+
+-- 2. Limpiar comentarios viejos (opcional, para no duplicar)
+-- SET FOREIGN_KEY_CHECKS = 0; 
+-- TRUNCATE TABLE comments;
+-- SET FOREIGN_KEY_CHECKS = 1;
+
+-- 3. Insertar Comentarios de Prueba
+
+-- Comentarios en el Robot 1 (Atlas Model X)
+INSERT INTO comments (user_id, post_id, content, created_at) VALUES 
+(3, 1, '¡Increíble la agilidad que tiene este modelo! Lo he visto en videos y es alucinante.', '2023-10-01 10:00:00'),
+(4, 1, 'El precio es elevado, pero para tareas de rescate vale cada centavo. ¿Saben si incluye garantía extendida?', '2023-10-01 12:30:00'),
+(2, 1, 'Hola MariaDev, sí, incluye 2 años de garantía directa con Boston Dynamics.', '2023-10-01 14:15:00');
+
+-- Comentarios en el Robot 2 (Spot Mini)
+INSERT INTO comments (user_id, post_id, content, created_at) VALUES 
+(5, 2, 'Me encantaría tener uno de mascota, aunque creo que mi gato se infartaría.', '2023-10-02 09:45:00'),
+(3, 2, 'Lo usamos en la obra para inspeccionar tuberías estrechas y funciona de maravilla.', '2023-10-03 16:20:00');
+
+-- Comentarios en el Robot 5 (Raspberry Pi Kit)
+INSERT INTO comments (user_id, post_id, content, created_at) VALUES 
+(4, 5, 'Perfecto para empezar a programar con Python. A mi hijo le ha encantado.', '2023-10-05 18:00:00'),
+(1, 5, 'Gracias por tu compra Maria. Pronto sacaremos un curso avanzado para este kit.', '2023-10-06 09:00:00');
+
 -- 6. Insertar Datos de Prueba (Robots)
 INSERT INTO users (username, email, password) VALUES 
 ('AdminRobot', 'admin@robotics.com', '1234');
@@ -50,3 +86,5 @@ INSERT INTO posts (title, content, image_url, price, user_id, category_id) VALUE
 
 -- Reactivar claves foráneas
 SET FOREIGN_KEY_CHECKS = 1;
+
+

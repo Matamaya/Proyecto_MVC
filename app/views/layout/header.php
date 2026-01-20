@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi Proyecto MVC</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="<?= BASE_URL ?>/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 </head>
 <body class="bg-gray-100 font-sans flex flex-col min-h-screen">

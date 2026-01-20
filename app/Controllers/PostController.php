@@ -1,8 +1,10 @@
 <?php
 
 
-class PostController {
-    public function index() {
+class PostController
+{
+    public function index()
+    {
         // Verificar si el usuario ha iniciado sesión
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -12,7 +14,7 @@ class PostController {
 
         // Instancia el modelo
         $postModel = new Post();
-        
+
         // Pide los datos
         $posts = $postModel->getAll();
 
@@ -22,21 +24,25 @@ class PostController {
         require_once 'app/views/layout/footer.php';
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $postModel = new Post();
-        // Busca el robot por ID
         $post = $postModel->findById($id);
 
-        // Si no existe, error 404
         if (!$post) {
-            header("Location: " . BASE_URL);
+            header("Location: " . BASE_URL . "/public");
             exit;
         }
 
-        // Carga la vista de detalle
-        require_once 'app/views/layout/header.php';
-        require_once 'app/views/posts/detail.php';
-        require_once 'app/views/layout/footer.php';
-    }
+        // --- Cargar Comentarios ---
+        require_once dirname(__DIR__) . '/Models/Comment.php'; // Importar modelo
+        $commentModel = new Comment();
+        $comments = $commentModel->getByPostId($id); // Obtener datos
+        // ---------------------------------
 
+        $rootPath = dirname(__DIR__, 2);
+        require_once $rootPath . '/app/views/layout/header.php';
+        require_once $rootPath . '/app/views/posts/detail.php';
+        require_once $rootPath . '/app/views/layout/footer.php';
+    }
 }
