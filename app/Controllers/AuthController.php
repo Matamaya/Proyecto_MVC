@@ -3,79 +3,138 @@ require_once dirname(__DIR__) . '/Models/User.php';
 
 class AuthController {
 
-    // Muestra el formulario de Login
     public function login() {
         $rootPath = dirname(__DIR__);
-        
-        // Si se envían datos (POST), intentamos loguear
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->processLogin();
-        } else {
-            // Si es GET, solo mostramos la vista
-            require_once $rootPath . '/views/layout/header.php';
-            require_once $rootPath . '/views/auth/login.php';
-            require_once $rootPath . '/views/layout/footer.php';
+        $errors = [];
+        $old = [];
+
+        // Iniciar sesión si no está iniciada para verificar mensajes flash
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
+
+        if (isset($_SESSION['success_message'])) {
+            $success = $_SESSION['success_message'];
+            unset($_SESSION['success_message']);
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $old = $_POST; // Guardar datos antiguos para repoblar formulario
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+
+            if (empty($email)) {
+                $errors[] = "El email es obligatorio.";
+            }
+            if (empty($password)) {
+                $errors[] = "La contraseña es obligatoria.";
+            }
+
+            if (empty($errors)) {
+                $userModel = new User();
+                $user = $userModel->findByEmail($email);
+
+                if ($user && password_verify($password, $user['password'])) {
+                    // Regenerar ID de sesión por seguridad
+                    session_regenerate_id(true);
+                    
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    
+                    if (isset($user['role_id']) && $user['role_id'] == 1) {
+                        $_SESSION['role'] = 'admin';
+                    } else {
+                        $_SESSION['role'] = 'user';
+                    }
+                    
+                    header('Location: ' . BASE_URL . '/public');
+                    exit;
+                } else {
+                    $errors[] = "Credenciales incorrectas.";
+                }
+            }
+        }
+
+        // Cargar vista con errores y datos antiguos
+        require_once $rootPath . '/views/layout/header.php';
+        require_once $rootPath . '/views/auth/login.php';
+        require_once $rootPath . '/views/layout/footer.php';
     }
 
-    // Muestra el formulario de Registro
     public function register() {
         $rootPath = dirname(__DIR__);
+        $errors = [];
+        $old = [];
 
-        // Si se envían datos (POST), intentamos registrar
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->processRegister();
-        } else {
-            require_once $rootPath . '/views/layout/header.php';
-            require_once $rootPath . '/views/auth/register.php';
-            require_once $rootPath . '/views/layout/footer.php';
-        }
-    }
+            $old = $_POST;
+            $username = trim($_POST['username'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
 
-    // Lógica para procesar el Login
-    private function processLogin() {
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        $userModel = new User();
-        $user = $userModel->findByEmail($email);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // Login correcto: Iniciamos sesión
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+            // 1. Validaciones
+            if (empty($username)) {
+                $errors[] = "El nombre de usuario es obligatorio.";
+            }
             
-            // Redirigir al Home
-            header('Location: ' . BASE_URL . '/public');
-            exit;
-        } else {
-            // Error
-            echo "<div class='bg-red-500 text-white p-4 text-center'>Credenciales incorrectas</div>";
+            if (empty($email)) {
+                $errors[] = "El email es obligatorio.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "El formato del email no es válido.";
+            }
+
+            if (empty($password)) {
+                $errors[] = "La contraseña es obligatoria.";
+            } elseif (strlen($password) < 6) {
+                $errors[] = "La contraseña debe tener al menos 6 caracteres.";
+            }
+
+            // 2. Comprobar si existe usuario
+            if (empty($errors)) {
+                $userModel = new User();
+                
+                if ($userModel->findByEmail($email)) {
+                    $errors[] = "El email ya está registrado.";
+                }
+                
+                // Opcional: Validar username único si se desea
+                // if ($userModel->findByUsername($username)) {
+                //    $errors[] = "El nombre de usuario ya está en uso.";
+                // }
+
+                if (empty($errors)) {
+                    // 3. Crear usuario
+                    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                    $datosUsuario = [
+                        'username' => $username, 
+                        'email'    => $email, 
+                        'password' => $passwordHash, 
+                        'role_id'  => 2 
+                    ];
+
+                    if ($userModel->create($datosUsuario)) {
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+                        $_SESSION['success_message'] = "Cuenta creada con éxito. Por favor inicia sesión.";
+                        header('Location: ' . BASE_URL . '/public/auth/login');
+                        exit;
+                    } else {
+                        $errors[] = "Ocurrió un error al registrar el usuario. Inténtalo de nuevo.";
+                    }
+                }
+            }
         }
+
+        require_once $rootPath . '/views/layout/header.php';
+        require_once $rootPath . '/views/auth/register.php';
+        require_once $rootPath . '/views/layout/footer.php';
     }
 
-    // Lógica para procesar el Registro
-    private function processRegister() {
-        $username = $_POST['username'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        $userModel = new User();
-        
-        // Intentamos crear el usuario
-        if ($userModel->create(['username' => $username, 'email' => $email, 'password' => $password])) {
-            // Registro exitoso: redirigir al login
-            header('Location: ' . BASE_URL . '/public/auth/login');
-            exit;
-        } else {
-            echo "<div class='bg-red-500 text-white p-4 text-center'>Error al registrar. El email ya existe.</div>";
-        }
-    }
-
-    // Cerrar sesión
     public function logout() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         session_destroy();
         header('Location: ' . BASE_URL . '/public');
         exit;

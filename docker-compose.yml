@@ -22,8 +22,8 @@ services:
     container_name: mvc_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mvc_project # Nombre de la base de datos, TODO: cambiar por nombre de la Empresa
-      MYSQL_USER: user # TODO: cambiar por admin?
+      MYSQL_DATABASE: mvc_project 
+      MYSQL_USER: user 
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"

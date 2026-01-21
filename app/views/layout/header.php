@@ -33,6 +33,14 @@
                          <a href="<?= BASE_URL ?>/public/about" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             About Us
                         </a>
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a href="<?= BASE_URL ?>/public/admin" class="border-transparent text-red-600 hover:border-red-700 hover:text-red-800 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Panel General
+                        </a>
+                        <a href="<?= BASE_URL ?>/public/post/manage" class="border-transparent text-blue-600 hover:border-blue-700 hover:text-blue-800 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Gestionar Posts
+                        </a>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -92,6 +100,10 @@
             <div class="pt-2 pb-3 space-y-1">
                 <a href="<?= BASE_URL ?>/public" class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
                 <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Categorías</a>
+                
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/public/admin" class="border-transparent text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Admin Panel</a>
+                <?php endif; ?>
                 
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div class="border-t border-gray-200 pt-4 pb-3">

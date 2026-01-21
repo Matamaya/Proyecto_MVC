@@ -11,12 +11,30 @@
                 </a>
             </p>
         </div>
+
+        <?php if (!empty($errors)): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                <p class="font-bold">Error</p>
+                <?php foreach ($errors as $error): ?>
+                    <p><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($success)): ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+                <p class="font-bold">¡Éxito!</p>
+                <p><?= htmlspecialchars($success) ?></p>
+            </div>
+        <?php endif; ?>
         
         <form class="mt-8 space-y-6" action="<?= BASE_URL ?>/public/auth/login" method="POST">
             <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="email-address" class="sr-only">Email</label>
-                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Correo electrónico">
+                    <input id="email-address" name="email" type="email" autocomplete="email" required 
+                        value="<?= isset($old['email']) ? htmlspecialchars($old['email']) : '' ?>"
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Correo electrónico">
                 </div>
                 <div>
                     <label for="password" class="sr-only">Contraseña</label>
