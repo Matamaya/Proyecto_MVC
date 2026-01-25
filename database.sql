@@ -62,6 +62,7 @@ CREATE TABLE posts (
 CREATE TABLE comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     content TEXT NOT NULL,
+    image_url VARCHAR(512) NULL,
     user_id INT NOT NULL,
     post_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

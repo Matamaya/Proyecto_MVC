@@ -46,8 +46,17 @@
                                 #<?= $post['id'] ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($post['title']) ?></div>
-                                <div class="text-xs text-gray-500 truncate w-40"><?= htmlspecialchars(substr($post['content'], 0, 50)) ?>...</div>
+                                <div class="flex items-center">
+                                    <?php if (!empty($post['image_url'])): ?>
+                                        <div class="flex-shrink-0 h-10 w-10 mr-4">
+                                            <img class="h-10 w-10 rounded-full object-cover" src="<?= htmlspecialchars($post['image_url']) ?>" alt="">
+                                        </div>
+                                    <?php endif; ?>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($post['title']) ?></div>
+                                        <div class="text-xs text-gray-500 truncate w-40"><?= htmlspecialchars(substr($post['content'], 0, 50)) ?>...</div>
+                                    </div>
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">

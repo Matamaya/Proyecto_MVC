@@ -2,7 +2,7 @@
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
 
         <div class="md:w-1/2 relative bg-gray-100">
-            <img src="<?= $post['image_url'] ?>" alt="<?= $post['title'] ?>" class="w-full h-full object-cover">
+            <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/800x600?text=No+Image' ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover">
         </div>
 
         <div class="md:w-1/2 p-8 flex flex-col justify-between">
@@ -19,13 +19,13 @@
                                 <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                     <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                                 </svg>
-                                <a href="#" class="ml-2 text-sm font-medium text-gray-400 hover:text-gray-900"><?= $post['category_name'] ?? 'Producto' ?></a>
+                                <a href="#" class="ml-2 text-sm font-medium text-gray-400 hover:text-gray-900"><?= htmlspecialchars($post['category_name'] ?? 'Producto') ?></a>
                             </div>
                         </li>
                     </ol>
                 </nav>
 
-                <h1 class="text-3xl font-extrabold text-gray-900 mb-2"><?= $post['title'] ?></h1>
+                <h1 class="text-3xl font-extrabold text-gray-900 mb-2"><?= htmlspecialchars($post['title']) ?></h1>
 
                 <div class="flex items-center mb-6">
                     <div class="flex text-yellow-400">
@@ -50,7 +50,7 @@
                 </div>
 
                 <p class="text-gray-600 leading-relaxed mb-6">
-                    <?= nl2br($post['content']) ?>
+                    <?= nl2br(htmlspecialchars($post['content'])) ?>
                 </p>
 
                 <div class="space-y-3 mb-8">
@@ -92,12 +92,18 @@
 
         <?php if (isset($_SESSION['user_id'])): ?>
             <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-8 border border-gray-200">
-                <form action="<?= BASE_URL ?>/public/comment/store" method="POST">
+                <form action="<?= BASE_URL ?>/public/comment/store" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2">Deja tu opinión</label>
                         <textarea name="content" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Escribe aquí..." required></textarea>
                     </div>
+                    <!-- Image Upload -->
+                    <div class="mb-4">
+                         <label class="block text-gray-700 text-sm font-bold mb-2">Adjuntar imagen (opcional)</label>
+                         <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                         Publicar Comentario
                     </button>
@@ -122,6 +128,11 @@
                             <span class="text-xs text-gray-500"><?= date('d/m/Y', strtotime($comment['created_at'])) ?></span>
                         </div>
                         <p class="text-gray-600 mt-2"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                        <?php if (!empty($comment['image_url'])): ?>
+                            <div class="mt-3">
+                                <img src="<?= htmlspecialchars($comment['image_url']) ?>" alt="Imagen adjunta" class="max-h-48 rounded border border-gray-200">
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

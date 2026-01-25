@@ -30,7 +30,7 @@ class PostController
         $post = $postModel->findById($id);
 
         if (!$post) {
-            header("Location: " . BASE_URL . "/public");
+            header("Location: " . BASE_URL . "/public/post/manage");
             exit;
         }
 
@@ -86,10 +86,13 @@ class PostController
         $this->checkAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = trim($_POST['title'] ?? '');
-            $content = trim($_POST['content'] ?? '');
-            $price = $_POST['price'] ?? 0;
-            $category_id = $_POST['category_id'] ?? '';
+            // Sanitización básica de entrada
+            $title = trim(htmlspecialchars($_POST['title'] ?? '')); // XSS prevent at source, though output encoding is better
+            $content = trim(htmlspecialchars($_POST['content'] ?? ''));
+            $price = filter_var($_POST['price'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $category_id = filter_var($_POST['category_id'] ?? '', FILTER_SANITIZE_NUMBER_INT);
+            $specs = trim($_POST['specs'] ?? ''); // JSON raw string
+
             
             $errors = [];
             if (empty($title)) $errors[] = "El título es obligatorio";
@@ -97,13 +100,28 @@ class PostController
             if ($price < 0) $errors[] = "El precio no puede ser negativo";
             if (empty($category_id)) $errors[] = "La categoría es obligatoria";
 
+            // Manejo de Imagen
+            $imageUrl = null;
+            if (isset($_FILES['image'])) {
+                try {
+                    require_once dirname(__DIR__) . '/utils/ImageUploader.php';
+                    $uploader = new ImageUploader();
+                    // BASE_URL se usa dentro de la clase, asegurar que esté definida o pasarla
+                    // La clase ImageUploader que creé usa BASE_URL.
+                    $imageUrl = $uploader->upload($_FILES['image']);
+                } catch (Exception $e) {
+                     $errors[] = $e->getMessage();
+                }
+            }
+
             if (empty($errors)) {
                 $postModel = new Post();
                 $data = [
                     'title' => $title,
                     'content' => $content,
                     'price' => $price,
-                    'specs' => null, 
+                    'image_url' => $imageUrl,
+                    'specs' => !empty($specs) ? $specs : null, 
                     'is_active' => 1,
                     'user_id' => $_SESSION['user_id'],
                     'category_id' => $category_id
@@ -156,21 +174,43 @@ class PostController
         $this->checkAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $title = trim($_POST['title'] ?? '');
-            $content = trim($_POST['content'] ?? '');
-            $price = $_POST['price'] ?? 0;
-            $category_id = $_POST['category_id'] ?? '';
+             $title = trim(htmlspecialchars($_POST['title'] ?? ''));
+            $content = trim(htmlspecialchars($_POST['content'] ?? ''));
+            $price = filter_var($_POST['price'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $category_id = filter_var($_POST['category_id'] ?? '', FILTER_SANITIZE_NUMBER_INT);
+            $specs = trim($_POST['specs'] ?? '');
             
             $errors = [];
             if (empty($title)) $errors[] = "El título es obligatorio";
 
+            // Obtener post actual para imagen
+            $postModel = new Post();
+            $currentPost = $postModel->findById($id);
+
+            // Manejo de Imagen
+            $imageUrl = $currentPost['image_url'] ?? null;
+            if (isset($_FILES['image'])) {
+                try {
+                    require_once dirname(__DIR__) . '/utils/ImageUploader.php';
+                    $uploader = new ImageUploader();
+                    // Pasar imagen existente es opcional segun mi logica actual, pero el uploader
+                    // devuelve la nueva ruta si se sube.
+                    $uploadedUrl = $uploader->upload($_FILES['image'], $imageUrl);
+                    if ($uploadedUrl) {
+                        $imageUrl = $uploadedUrl;
+                    }
+                } catch (Exception $e) {
+                     $errors[] = $e->getMessage();
+                }
+            }
+
             if (empty($errors)) {
-                $postModel = new Post();
                 $data = [
                     'title' => $title,
                     'content' => $content,
                     'price' => $price,
-                    'specs' => null, 
+                    'image_url' => $imageUrl,
+                    'specs' => !empty($specs) ? $specs : null, 
                     'category_id' => $category_id
                 ];
 

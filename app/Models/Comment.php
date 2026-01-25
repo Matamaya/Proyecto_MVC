@@ -9,16 +9,17 @@ class Comment {
     }
 
     // Insertar un comentario
-    public function create($data) {
+    public function create($userId, $postId, $content, $imageUrl = null) {
     // Fíjate que NO pedimos 'created_at', la base de datos lo pone sola
-    $sql = "INSERT INTO comments (content, user_id, post_id) VALUES (:content, :user_id, :post_id)";
+    $sql = "INSERT INTO comments (content, image_url, user_id, post_id) VALUES (:content, :image_url, :user_id, :post_id)";
     
     $stmt = $this->db->prepare($sql);
     
     return $stmt->execute([
-        ':content' => $data['content'],
-        ':user_id' => $data['user_id'], // Viene de $_SESSION['user_id']
-        ':post_id' => $data['post_id']  // Viene del ID del producto que estás viendo
+        ':content' => $content,
+        ':image_url' => $imageUrl,
+        ':user_id' => $userId, 
+        ':post_id' => $postId
     ]);
 }
 

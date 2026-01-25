@@ -64,74 +64,35 @@ class AdminController {
     }
 
 
-    // --- POSTS MANAGEMENT ---
+    // --- POSTS MANAGEMENT - DELEGATED TO PostController ---
     public function posts() {
-        $postModel = new Post();
-        $posts = $postModel->getAll();
-        $this->render('posts', ['posts' => $posts]);
+        // Redirigir a la gestión unificada en PostController
+        header('Location: ' . BASE_URL . '/public/post/manage');
+        exit;
     }
 
     public function createPost() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $postModel = new Post();
-            $data = [
-                'title' => $_POST['title'],
-                'content' => $_POST['content'],
-                'price' => $_POST['price'],
-                'user_id' => $_SESSION['user_id'], // Admin crea el post
-                'category_id' => $_POST['category_id'],
-                'is_active' => isset($_POST['is_active']) ? 1 : 0
-            ];
-            // Specs como JSON simple por ahora
-            if (!empty($_POST['specs'])) {
-                $data['specs'] = $_POST['specs']; // Asumimos que viene como string válido o lo procesamos
-            }
-
-            $postModel->create($data);
-            header('Location: ' . BASE_URL . '/public/admin/posts');
-            exit;
-        }
-        $categoryModel = new Category();
-        $categories = $categoryModel->getAll();
-        $this->render('post_form', ['categories' => $categories]);
+        header('Location: ' . BASE_URL . '/public/post/create');
+        exit;
     }
 
     public function editPost($id) {
-        $postModel = new Post();
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'title' => $_POST['title'],
-                'content' => $_POST['content'],
-                'price' => $_POST['price'],
-                'category_id' => $_POST['category_id']
-            ];
-             if (!empty($_POST['specs'])) {
-                $data['specs'] = $_POST['specs'];
-            }
-            
-            $postModel->update($id, $data);
-            header('Location: ' . BASE_URL . '/public/admin/posts');
-            exit;
-        }
-
-        $post = $postModel->findById($id);
-        $categoryModel = new Category();
-        $categories = $categoryModel->getAll();
-        $this->render('post_form', ['post' => $post, 'categories' => $categories]);
+        header('Location: ' . BASE_URL . '/public/post/edit/' . $id);
+        exit;
     }
 
     public function deletePost($id) {
         $postModel = new Post();
-        $postModel->delete($id);
-        header('Location: ' . BASE_URL . '/public/admin/posts');
+        $postModel->delete($id); // O redirigir a post/delete si existe, pero post/delete es una acción
+        // Como PostController::delete redirige, podemos llamar al modelo aquí y redirigir
+        header('Location: ' . BASE_URL . '/public/post/manage');
         exit;
     }
 
     public function togglePost($id) {
         $postModel = new Post();
         $postModel->toggleStatus($id);
-        header('Location: ' . BASE_URL . '/public/admin/posts');
+        header('Location: ' . BASE_URL . '/public/post/manage');
         exit;
     }
 

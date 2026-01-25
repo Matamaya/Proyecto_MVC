@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Robot Arm">
+    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80" alt="Robot Arm">
   </div>
 </div>
 
@@ -70,14 +70,14 @@
             <?php foreach(array_slice($posts, 0, 3) as $post): ?>
                 <div class="group relative">
                     <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                        <img src="<?= $post['image_url'] ?>" alt="<?= $post['title'] ?>" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/600x400?text=No+Image' ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
                     </div>
                     <div class="mt-4 flex justify-between">
                         <div>
                             <h3 class="text-sm text-gray-700">
                                 <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
-                                    <?= $post['title'] ?>
+                                    <?= htmlspecialchars($post['title']) ?>
                                 </a>
                             </h3>
                             <p class="mt-1 text-sm text-gray-500">Robotics Series X</p>
@@ -98,11 +98,11 @@
             <?php foreach(array_slice($posts, 0, 3) as $post): ?>
                  <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
                     <div class="h-48 overflow-hidden">
-                        <img src="<?= $post['image_url'] ?>" alt="<?= $post['title'] ?>" class="w-full h-full object-cover">
+                        <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/600x400?text=No+Image' ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900"><?= $post['title'] ?></h3>
-                        <p class="mt-2 text-sm text-gray-500 line-clamp-2"><?= $post['content'] ?></p>
+                        <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($post['title']) ?></h3>
+                        <p class="mt-2 text-sm text-gray-500 line-clamp-2"><?= htmlspecialchars($post['content']) ?></p>
                          <div class="mt-4 flex justify-between items-center">
                             <span class="text-blue-600 font-bold">$<?= number_format($post['price'], 2) ?></span>
                             <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Ver más &rarr;</a>

@@ -19,13 +19,21 @@
                 </div>
             <?php endif; ?>
 
-            <form action="<?= BASE_URL ?>/public/post/store" method="POST" class="space-y-6">
+            <form action="<?= BASE_URL ?>/public/post/store" method="POST" enctype="multipart/form-data" class="space-y-6">
                 <!-- Título -->
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700">Título del Producto</label>
                     <input type="text" name="title" id="title" required 
                            value="<?= isset($old['title']) ? htmlspecialchars($old['title']) : '' ?>"
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border">
+                </div>
+
+                <!-- Imagen -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Imagen del Producto</label>
+                    <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/webp"
+                           class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, WEBP hasta 2MB</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -58,6 +66,15 @@
                     <label for="content" class="block text-sm font-medium text-gray-700">Descripción Detallada</label>
                     <textarea name="content" id="content" rows="6" required 
                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border"><?= isset($old['content']) ? htmlspecialchars($old['content']) : '' ?></textarea>
+                </div>
+
+                <!-- Specs (JSON) -->
+                 <div>
+                    <label for="specs" class="block text-sm font-medium text-gray-700">Especificaciones Técnicas (JSON)</label>
+                    <textarea name="specs" id="specs" rows="3" 
+                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border font-mono"
+                              placeholder='{"bateria": "5000mAh", "peso": "15kg"}'><?= isset($old['specs']) ? htmlspecialchars($old['specs']) : '' ?></textarea>
+                    <p class="mt-1 text-xs text-gray-500">Introduce un JSON válido.</p>
                 </div>
 
                 <!-- Botones -->

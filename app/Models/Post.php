@@ -24,8 +24,8 @@ class Post {
         // Preparamos la consulta para evitar inyecciones SQL
         $sql = "SELECT posts.*, users.username, categories.name as category_name
                 FROM posts 
-                JOIN users ON posts.user_id = users.id 
-                JOIN categories ON posts.category_id = categories.id
+                LEFT JOIN users ON posts.user_id = users.id 
+                LEFT JOIN categories ON posts.category_id = categories.id
                 WHERE posts.id = :id";
         
         $stmt = $this->db->prepare($sql);
@@ -38,13 +38,14 @@ class Post {
 
     // Insertar nuevo post
     public function create($data) {
-        $sql = "INSERT INTO posts (title, content, price, specs, is_active, user_id, category_id) 
-                VALUES (:title, :content, :price, :specs, :is_active, :user_id, :category_id)";
+        $sql = "INSERT INTO posts (title, content, price, image_url, specs, is_active, user_id, category_id) 
+                VALUES (:title, :content, :price, :image_url, :specs, :is_active, :user_id, :category_id)";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
             ':title'       => $data['title'],
             ':content'     => $data['content'],
             ':price'       => $data['price'],
+            ':image_url'   => $data['image_url'] ?? null,
             ':specs'       => $data['specs'] ?? null,
             ':is_active'   => $data['is_active'] ?? 1,
             ':user_id'     => $data['user_id'],
@@ -57,7 +58,8 @@ class Post {
         $sql = "UPDATE posts SET 
                 title = :title, 
                 content = :content, 
-                price = :price, 
+                price = :price,
+                image_url = :image_url,
                 specs = :specs, 
                 category_id = :category_id 
                 WHERE id = :id";
@@ -67,6 +69,7 @@ class Post {
             ':title'       => $data['title'],
             ':content'     => $data['content'],
             ':price'       => $data['price'],
+            ':image_url'   => $data['image_url'] ?? null,
             ':specs'       => $data['specs'] ?? null,
             ':category_id' => $data['category_id']
         ]);
