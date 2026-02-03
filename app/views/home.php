@@ -1,209 +1,281 @@
+<?php
+// Break out of the container opened in header.php
+?>
+</div>
+
+<style>
+    /* Custom Utilities */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Animations */
+    @keyframes float { 
+        0% { transform: translateY(0px); } 
+        50% { transform: translateY(-15px); } 
+        100% { transform: translateY(0px); } 
+    }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    
+    @keyframes fadeInUp { 
+        from { opacity: 0; transform: translateY(20px); } 
+        to { opacity: 1; transform: translateY(0); } 
+    }
+    .animate-enter { animation: fadeInUp 0.8s ease-out forwards; }
+    
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+</style>
+
 <!-- Hero Section -->
 <div class="relative bg-white overflow-hidden">
   <div class="max-w-7xl mx-auto">
-    <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-      <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <polygon points="50,0 100,0 50,100 0,100" />
-      </svg>
-      <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+    <div class="relative z-10 pb-8 bg-gradient-to-r from-cyan-100 via-white to-orange-100 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 h-[700px] flex items-center">
+      
+      <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28 w-full animate-enter">
         <div class="sm:text-center lg:text-left">
-          <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span class="block xl:inline">Robótica avanzada para</span>
-            <span class="block text-blue-600 xl:inline">un futuro automatizado</span>
-          </h1>
-          <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-            Descubre la próxima generación de robots industriales, educativos y domésticos. Potencia tu productividad y aprendizaje con nuestra tecnología de vanguardia.
-          </p>
-          <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <div class="rounded-md shadow">
-              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                Get Started
-              </a>
-            </div>
-            <div class="mt-3 sm:mt-0 sm:ml-3">
-              <a href="<?= BASE_URL ?>/public/about" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10">
-                Learn More
-              </a>
-            </div>
+            <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-xs font-bold tracking-wider uppercase mb-4">Rebajas de invierno</span>
+            <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl">
+                <span class="block xl:inline">DESCUENTOS DE</span>
+                <span class="block text-gray-900 xl:inline bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">HASTA EL 51 %</span>
+            </h1>
+            <p class="mt-4 text-lg text-gray-500 sm:mt-5 sm:text-xl sm:max-w-xl sm:mx-auto md:mt-5 md:text-2xl lg:mx-0 font-light">
+                Obtén ofertas y regalos exclusivos en la tienda. Tecnología del futuro, hoy en tus manos.
+            </p>
+            <div class="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start gap-4">
+                <div class="rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <a href="#" class="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-white bg-gray-900 hover:bg-black md:text-lg md:px-12 transition-all duration-300 transform hover:-translate-y-1">
+                        Comprar ahora
+                    </a>
+                </div>
+                <!-- Optional Secondary Button -->
+                <!-- <div class="mt-3 sm:mt-0">
+                    <a href="#" class="w-full flex items-center justify-center px-8 py-4 border border-gray-200 text-base font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 md:text-lg md:px-10 transition-colors">
+                        Ver Video
+                    </a>
+                </div> -->
           </div>
         </div>
       </main>
     </div>
   </div>
-  <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80" alt="Robot Arm">
+  <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-gray-50">
+    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full animate-float" style="object-position: center bottom;" src="https://images.unsplash.com/photo-1506947411487-a56738267384?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Drone in forest">
+    <!-- Unsplash image of drone/nature to match the vibe -->
   </div>
 </div>
 
-<!-- Categories Section -->
-<div class="bg-gray-100 py-12">
+<!-- Categories Strip -->
+<div class="bg-white py-12 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-extrabold text-gray-900 mb-8 text-center">Compra por Categorías</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="relative rounded-lg overflow-hidden group cursor-pointer h-64">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Industrial" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3 class="text-white text-2xl font-bold">Industrial</h3>
+        <div class="flex justify-between items-center overflow-x-auto gap-8 pb-4 scrollbar-hide animate-enter delay-100">
+            <?php 
+            $categories = [
+                ['name' => 'Mini', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
+                ['name' => 'Mini 2', 'icon' => 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z'],
+                ['name' => 'Mini SE', 'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
+                ['name' => 'Mavic 3', 'icon' => 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8'],
+                ['name' => 'Air 2S', 'icon' => 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
+                ['name' => 'FPV', 'icon' => 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'],
+                ['name' => 'Inspire', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+            ];
+            foreach($categories as $cat): ?>
+            <div class="flex flex-col items-center min-w-[80px] group cursor-pointer">
+                <div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-gray-50 text-gray-400 group-hover:text-gray-900 group-hover:bg-white group-hover:shadow-lg group-hover:ring-1 group-hover:ring-gray-200 transition-all duration-300 transform group-hover:-translate-y-1">
+                    <svg class="h-8 w-8 transition-transform duration-300 group-hover:rotate-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="<?= $cat['icon'] ?>" />
+                    </svg>
                 </div>
+                <span class="mt-3 text-sm font-medium text-gray-500 group-hover:text-gray-900 transition-colors"><?= $cat['name'] ?></span>
             </div>
-            <div class="relative rounded-lg overflow-hidden group cursor-pointer h-64">
-                <img src="https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Educational" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3 class="text-white text-2xl font-bold">Educational</h3>
-                </div>
-            </div>
-            <div class="relative rounded-lg overflow-hidden group cursor-pointer h-64">
-                <img src="https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Home" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3 class="text-white text-2xl font-bold">Home</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Featured Products Section -->
-<div class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Productos Destacados</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <?php foreach(array_slice($posts, 0, 3) as $post): ?>
-                <div class="group relative">
-                    <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                        <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/600x400?text=No+Image' ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    <?= htmlspecialchars($post['title']) ?>
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Robotics Series X</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$<?= number_format($post['price'], 2) ?></p>
-                    </div>
-                </div>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
 
-<!-- New Products Section -->
-<div class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Novedades</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <?php foreach(array_slice($posts, 0, 3) as $post): ?>
-                 <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
-                    <div class="h-48 overflow-hidden">
-                        <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/600x400?text=No+Image' ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover">
+<div class="container mx-auto px-4 py-16 space-y-20">
+
+    <?php 
+    // Data Preparation: Duplicate posts to simulate a full carousel if needed
+    $carousel_posts = $posts;
+    while(count($carousel_posts) < 8) {
+        $carousel_posts = array_merge($carousel_posts, $posts);
+    }
+    // Limit to reasonable number
+    $carousel_posts = array_slice($carousel_posts, 0, 8);
+    ?>
+
+    <!-- Novedades Carousel -->
+    <div class="animate-enter delay-200">
+        <div class="flex justify-between items-end mb-8 px-2">
+            <div>
+                <span class="text-blue-600 font-bold tracking-wide uppercase text-sm">Lo último</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-1">Novedades</h2>
+            </div>
+             <!-- Navigation hints could go here -->
+             <div class="hidden md:flex space-x-2">
+                <div class="w-8 h-1 bg-gray-200 rounded-full"></div>
+                <div class="w-2 h-1 bg-gray-900 rounded-full"></div>
+                <div class="w-2 h-1 bg-gray-200 rounded-full"></div>
+             </div>
+        </div>
+        
+        <!-- Scrolling Wrapper -->
+        <div class="flex overflow-x-auto gap-6 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            <?php foreach($carousel_posts as $post): ?>
+            <!-- Card Item -->
+            <div class="snap-center shrink-0 w-[85vw] md:w-[350px]">
+                <div class="group relative bg-white rounded-3xl p-6 hover:shadow-2xl transition-all duration-500 border border-gray-100 h-full flex flex-col">
+                    <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>" class="absolute inset-0 z-30">
+                        <span class="sr-only">Ver detalles de <?= htmlspecialchars($post['title']) ?></span>
+                    </a>
+                    
+                    <!-- Image Container -->
+                    <div class="relative aspect-[4/5] mb-6 overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center">
+                         <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/400x500?text=Product' ?>" 
+                         alt="<?= htmlspecialchars($post['title']) ?>" 
+                         class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700 mix-blend-multiply">
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($post['title']) ?></h3>
-                        <p class="mt-2 text-sm text-gray-500 line-clamp-2"><?= htmlspecialchars($post['content']) ?></p>
-                         <div class="mt-4 flex justify-between items-center">
-                            <span class="text-blue-600 font-bold">$<?= number_format($post['price'], 2) ?></span>
-                            <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Ver más &rarr;</a>
-                         </div>
+                    
+                    <div class="flex-grow flex flex-col px-1">
+                        <!-- Category (Blue) -->
+                        <span class="text-blue-600 font-bold text-xs uppercase tracking-wider mb-2">DRONES</span>
+                        
+                        <!-- Title -->
+                        <h3 class="text-2xl font-bold text-gray-900 leading-tight mb-4 group-hover:text-blue-700 transition-colors"><?= htmlspecialchars($post['title']) ?></h3>
+                        
+                        <!-- Separator -->
+                        <div class="w-full h-px bg-gray-200 mb-4"></div>
+                        
+                        <!-- Price & Action -->
+                        <div class="mt-auto flex items-end justify-between">
+                            <div>
+                                 <p class="text-gray-400 text-[10px] font-bold uppercase tracking-wide mb-1">PRECIO DESDE</p>
+                                 <p class="text-3xl font-bold text-gray-900 leading-none"><?= number_format($post['price'], 0) ?> €</p>
+                            </div>
+                            
+                            <!-- Button (Visual only, link covers card) -->
+                            <span class="bg-gray-900 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg group-hover:bg-blue-600 transition-colors">
+                                Comprar
+                            </span>
+                        </div>
                     </div>
                 </div>
+            </div>
             <?php endforeach; ?>
         </div>
     </div>
-</div>
 
-<!-- Overview Section -->
-<div class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Overview</h2>
-            <h1 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                ¿Por qué elegir Robotics Store?
-            </h1>
-            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
-                Ofrecemos más que solo hardware. Somos tu socio en la innovación.
-            </p>
-        </div>
-
-        <div class="mt-10">
-            <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-                <div class="relative">
-                    <dt>
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <!-- Heroicon name: globe-alt -->
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                            </svg>
-                        </div>
-                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Envíos Globales</p>
-                    </dt>
-                    <dd class="mt-2 ml-16 text-base text-gray-500">
-                        Llegamos a cualquier parte del mundo con nuestra red logística de primera clase.
-                    </dd>
-                </div>
-
-                <div class="relative">
-                    <dt>
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <!-- Heroicon name: scale -->
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                            </svg>
-                        </div>
-                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Garantía de Calidad</p>
-                    </dt>
-                    <dd class="mt-2 ml-16 text-base text-gray-500">
-                        Todos nuestros productos pasan por rigurosos controles de calidad antes de ser enviados.
-                    </dd>
-                </div>
-
-                <div class="relative">
-                    <dt>
-                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <!-- Heroicon name: lightning-bolt -->
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Soporte 24/7</p>
-                    </dt>
-                    <dd class="mt-2 ml-16 text-base text-gray-500">
-                        Nuestro equipo de ingenieros está disponible para resolver tus dudas en cualquier momento.
-                    </dd>
-                </div>
-            </dl>
+    <!-- Banner Split Section -->
+    <div class="relative rounded-[2.5rem] overflow-hidden bg-black h-[500px] md:h-[600px] group animate-enter delay-300">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-700 group-hover:scale-105 transform">
+            <source src="<?= BASE_URL ?>/assets/img/drone_view.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
+             <span class="inline-block py-1 px-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 text-sm font-bold tracking-widest uppercase mb-6">
+                Tecnología Autónoma
+            </span>
+             <h2 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">Recuva Neo</h2>
+             <p class="text-gray-300 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+                 El dron con IA más avanzado del mercado. Captura cada momento con precisión milimétrica y síguete a donde vayas sin control remoto.
+             </p>
+             <div class="flex flex-col md:flex-row gap-4">
+                 <button class="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-gray-200 transition-all duration-300 transform hover:-translate-y-1 shadow-xl">
+                    Comprar ahora — 239 €
+                 </button>
+                 <button class="px-10 py-4 rounded-full font-bold text-white border border-white/30 hover:bg-white/10 backdrop-blur-sm transition-all duration-300">
+                    Ver características
+                 </button>
+             </div>
         </div>
     </div>
-</div>
 
-<!-- Testimonials Section -->
-<section class="py-12 bg-gray-50 overflow-hidden md:py-20 lg:py-24">
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative">
-            <img class="mx-auto h-8" src="https://tailwindui.com/img/logos/workcation-logo-indigo-600-mark-gray-800-text.svg" alt="Workcation">
-            <blockquote class="mt-10">
-                <div class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-900">
-                    <p>
-                        &ldquo;Robotics Store ha transformado completamente nuestra línea de producción. La calidad de sus brazos robóticos y el soporte técnico son inigualables en la industria.&rdquo;
-                    </p>
-                </div>
-                <footer class="mt-8">
-                    <div class="md:flex md:items-center md:justify-center">
-                        <div class="md:flex-shrink-0">
-                            <img class="mx-auto h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                        </div>
-                        <div class="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center">
-                            <div class="text-base font-medium text-gray-900">Judith Black</div>
-                            <svg class="hidden md:block mx-1 h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M11 0h3L9 20H6l5-20z" />
-                            </svg>
-                            <div class="text-base font-medium text-gray-500">CEO, Workcation</div>
+    <!-- Más Vendidos Carousel -->
+    <div class="animate-enter delay-300">
+        <div class="flex justify-between items-end mb-8 px-2">
+            <div>
+                <span class="text-orange-500 font-bold tracking-wide uppercase text-sm">Favoritos</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-1">Más Vendidos</h2>
+            </div>
+        </div>
+        
+        <div class="flex overflow-x-auto gap-6 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            <?php foreach($carousel_posts as $post): ?>
+            <div class="snap-center shrink-0 w-[85vw] md:w-[350px]">
+                <div class="group relative bg-white rounded-3xl p-6 hover:shadow-2xl transition-all duration-500 border border-gray-100 h-full flex flex-col">
+                    <a href="<?= BASE_URL ?>/public/post/show/<?= $post['id'] ?>" class="absolute inset-0 z-30">
+                        <span class="sr-only">Ver detalles de <?= htmlspecialchars($post['title']) ?></span>
+                    </a>
+                    
+                    <!-- Image Container -->
+                    <div class="relative aspect-[4/5] mb-6 overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center">
+                         <img src="<?= !empty($post['image_url']) ? htmlspecialchars($post['image_url']) : 'https://placehold.co/400x500?text=Product' ?>" 
+                         alt="<?= htmlspecialchars($post['title']) ?>" 
+                         class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700 mix-blend-multiply">
+                    </div>
+                    
+                    <div class="flex-grow flex flex-col px-1">
+                        <!-- Category (Blue) -->
+                        <span class="text-blue-600 font-bold text-xs uppercase tracking-wider mb-2">DRONES</span>
+                        
+                        <!-- Title -->
+                        <h3 class="text-2xl font-bold text-gray-900 leading-tight mb-4 group-hover:text-blue-700 transition-colors"><?= htmlspecialchars($post['title']) ?></h3>
+                        
+                        <!-- Separator -->
+                        <div class="w-full h-px bg-gray-200 mb-4"></div>
+                        
+                        <!-- Price & Action -->
+                        <div class="mt-auto flex items-end justify-between">
+                            <div>
+                                 <p class="text-gray-400 text-[10px] font-bold uppercase tracking-wide mb-1">PRECIO DESDE</p>
+                                 <p class="text-3xl font-bold text-gray-900 leading-none"><?= number_format($post['price'], 0) ?> €</p>
+                            </div>
+                            
+                            <!-- Button (Visual only, link covers card) -->
+                            <span class="bg-gray-900 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg group-hover:bg-blue-600 transition-colors">
+                                Comprar
+                            </span>
                         </div>
                     </div>
-                </footer>
-            </blockquote>
+                </div>
+            </div>
+            <?php endforeach; ?>
         </div>
     </div>
-</section>
+    
+    <!-- Modern Info Strip -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+         <div class="bg-blue-50/50 rounded-3xl p-8 text-center hover:bg-blue-50 transition-colors duration-300">
+             <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+             </div>
+             <h3 class="font-bold text-xl text-gray-900 mb-2">Envío Gratuito Global</h3>
+             <p class="text-gray-500 leading-relaxed">Recibe tu pedido en cualquier parte del mundo sin coste extra en compras superiores a 100€.</p>
+         </div>
+         <div class="bg-purple-50/50 rounded-3xl p-8 text-center hover:bg-purple-50 transition-colors duration-300">
+             <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+             </div>
+             <h3 class="font-bold text-xl text-gray-900 mb-2">Garantía Extendida</h3>
+             <p class="text-gray-500 leading-relaxed">Disfruta de 2 años de cobertura completa y soporte técnico prioritario incluido con tu compra.</p>
+         </div>
+         <div class="bg-green-50/50 rounded-3xl p-8 text-center hover:bg-green-50 transition-colors duration-300">
+             <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+             </div>
+             <h3 class="font-bold text-xl text-gray-900 mb-2">Soporte Expertos 24/7</h3>
+             <p class="text-gray-500 leading-relaxed">Nuestro equipo de ingenieros está disponible día y noche para resolver cualquier duda técnica.</p>
+         </div>
+    </div>
+</div>
+
+<div class="text-right py-6 px-8 animate-enter delay-300">
+     <a href="#" class="inline-flex items-center text-sm font-bold text-gray-400 hover:text-gray-900 transition-colors group">
+        Explorar todo el catálogo 
+        <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path></svg>
+     </a>
+</div>
+
+<?php 
+// Structure continuity for footer
+?>

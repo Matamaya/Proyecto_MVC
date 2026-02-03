@@ -2,11 +2,10 @@
   "name": "proyecto_mvc",
   "version": "1.0.0",
   "description": "",
-  "main": "tailwind.config.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css",
-    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch"
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -19,8 +18,9 @@
     "url": "https://github.com/Matamaya/Proyecto_MVC/issues"
   },
   "homepage": "https://github.com/Matamaya/Proyecto_MVC#readme",
-  "devDependencies": {
-    "@tailwindcss/cli": "^4.1.18",
-    "tailwindcss": "^4.1.18"
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.1"
   }
 }

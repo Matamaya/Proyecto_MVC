@@ -1,0 +1,4 @@
+@import "tailwindcss";
+/* Vite detectará automáticamente tus archivos PHP, 
+pero por seguridad podemos asegurar la ruta: */
+@source "../../app/views/**/*.php";

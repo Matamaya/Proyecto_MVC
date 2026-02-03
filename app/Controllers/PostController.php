@@ -5,12 +5,8 @@ class PostController
 {
     public function index()
     {
-        // Verificar si el usuario ha iniciado sesión
+        // El home es público, no requerimos login obligatoriamente
         if (session_status() === PHP_SESSION_NONE) session_start();
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: " . BASE_URL . "/public/auth/login");
-            exit;
-        }
 
         // Instancia el modelo
         $postModel = new Post();
@@ -18,10 +14,11 @@ class PostController
         // Pide los datos
         $posts = $postModel->getAll();
 
-        // Carga las vistas y les pasa los datos ($posts)
-        require_once 'app/views/layout/header.php';
-        require_once 'app/views/home.php';
-        require_once 'app/views/layout/footer.php';
+        // Carga las vistas
+        $rootPath = dirname(__DIR__, 2);
+        require_once $rootPath . '/app/views/layout/header.php';
+        require_once $rootPath . '/app/views/home.php';
+        require_once $rootPath . '/app/views/layout/footer.php';
     }
 
     public function show($id)
