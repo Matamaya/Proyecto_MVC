@@ -1,91 +1,66 @@
 <?php
-// app/Models/Post.php
-
-class Post {
+class Post
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::connect();
     }
 
-    public function getAll() {
-        // Hacemos un LEFT JOIN para obtener todos los posts y sus relaciones
-        $sql = "SELECT posts.*, users.username, categories.name as category_name
+    // Listar todos los posts
+    public function getAll()
+    {
+        // Unimos con users para saber el autor
+        $sql = "SELECT posts.*, users.username 
                 FROM posts 
-                LEFT JOIN users ON posts.user_id = users.id 
-                LEFT JOIN categories ON posts.category_id = categories.id
-                ORDER BY posts.created_at DESC";
-                
+                JOIN users ON posts.user_id = users.id 
+                ORDER BY posts.id ASC"; // a veces se usa 'created_at' pero 'id' sirve igual si es autoincremental
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
-    public function findById($id) {
-        // Preparamos la consulta para evitar inyecciones SQL
-        $sql = "SELECT posts.*, users.username, categories.name as category_name
+    // Buscar un post por ID
+    public function findById($id)
+    {
+        $sql = "SELECT posts.*, users.username 
                 FROM posts 
-                LEFT JOIN users ON posts.user_id = users.id 
-                LEFT JOIN categories ON posts.category_id = categories.id
+                JOIN users ON posts.user_id = users.id 
                 WHERE posts.id = :id";
-        
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
     }
 
-
-    // Insertar nuevo post
-    public function create($data) {
-        $sql = "INSERT INTO posts (title, content, price, image_url, specs, is_active, user_id, category_id) 
-                VALUES (:title, :content, :price, :image_url, :specs, :is_active, :user_id, :category_id)";
+    // Crear Post (Solo Admin/Writer)
+    public function create($title, $content, $userId, $imageUrl = null)
+    {
+        $sql = "INSERT INTO posts (title, content, user_id, image_url) VALUES (:title, :content, :user_id, :image_url)";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            ':title'       => $data['title'],
-            ':content'     => $data['content'],
-            ':price'       => $data['price'],
-            ':image_url'   => $data['image_url'] ?? null,
-            ':specs'       => $data['specs'] ?? null,
-            ':is_active'   => $data['is_active'] ?? 1,
-            ':user_id'     => $data['user_id'],
-            ':category_id' => $data['category_id']
+        $stmt->execute([
+            ':title' => $title,
+            ':content' => $content,
+            ':user_id' => $userId,
+            ':image_url' => $imageUrl
         ]);
+        // Devolvemos el ID para redireccionar o usar en Webhooks
+        return $this->db->lastInsertId();
     }
 
-    // Actualizar post
-    public function update($id, $data) {
-        $sql = "UPDATE posts SET 
-                title = :title, 
-                content = :content, 
-                price = :price,
-                image_url = :image_url,
-                specs = :specs, 
-                category_id = :category_id 
-                WHERE id = :id";
+    // Actualizar Post
+    public function update($id, $title, $content, $imageUrl)
+    {
+        $sql = "UPDATE posts SET title = ?, content = ?, image_url = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            ':id'          => $id,
-            ':title'       => $data['title'],
-            ':content'     => $data['content'],
-            ':price'       => $data['price'],
-            ':image_url'   => $data['image_url'] ?? null,
-            ':specs'       => $data['specs'] ?? null,
-            ':category_id' => $data['category_id']
-        ]);
+        return $stmt->execute([$title, $content, $imageUrl, $id]);
     }
 
-    // Eliminar post hard delete
-    public function delete($id) {
+    // Eliminar Post
+    public function delete($id)
+    {
         $sql = "DELETE FROM posts WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
-
-    // Cambiar estado (Publicar/Despublicar)
-    public function toggleStatus($id) {
-        $sql = "UPDATE posts SET is_active = NOT is_active WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([':id' => $id]);
-    }
 }
+?>

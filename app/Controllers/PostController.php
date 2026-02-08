@@ -1,232 +1,224 @@
 <?php
-
+// Ajuste de rutas para la estructura /app
+require_once __DIR__ . '/../Models/Post.php';
+require_once __DIR__ . '/../Models/Comment.php';
 
 class PostController
 {
+
+    // Helper para renderizar vistas
+    protected function render($view, $data = [])
+    {
+        extract($data);
+        // Apuntando a app/Views
+        include __DIR__ . '/../Views/' . $view;
+    }
+
     public function index()
     {
-        // El home es público, no requerimos login obligatoriamente
-        if (session_status() === PHP_SESSION_NONE) session_start();
-
-        // Instancia el modelo
         $postModel = new Post();
-
-        // Pide los datos
         $posts = $postModel->getAll();
-
-        // Carga las vistas
-        $rootPath = dirname(__DIR__, 2);
-        require_once $rootPath . '/app/views/layout/header.php';
-        require_once $rootPath . '/app/views/home.php';
-        require_once $rootPath . '/app/views/layout/footer.php';
+        $this->render('posts/index.php', compact('posts'));
     }
 
     public function show($id)
     {
         $postModel = new Post();
-        $post = $postModel->findById($id);
-
-        if (!$post) {
-            header("Location: " . BASE_URL . "/public/post/manage");
-            exit;
-        }
-
-        // --- Cargar Comentarios ---
-        require_once dirname(__DIR__) . '/Models/Comment.php'; // Importar modelo
         $commentModel = new Comment();
-        $comments = $commentModel->getByPostId($id); // Obtener datos
-        // ---------------------------------
 
-        $rootPath = dirname(__DIR__, 2);
-        require_once $rootPath . '/app/views/layout/header.php';
-        require_once $rootPath . '/app/views/posts/detail.php';
-        require_once $rootPath . '/app/views/layout/footer.php';
-    }
+        $post = $postModel->findById($id);
+        $comments = $commentModel->getByPostId($id);
 
-    // --- ADMINISTRACIÓN DE POSTS ---
-
-    private function checkAdmin() {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-            $_SESSION['error_message'] = "Acceso denegado.";
-            header("Location: " . BASE_URL . "/public");
+        if (!$post) {
+            header("Location: index.php");
             exit;
         }
+
+        $this->render('posts/show.php', compact('post', 'comments'));
     }
 
-    // Listado para gestión (Admin)
-    public function manage() {
-        $this->checkAdmin();
-        $postModel = new Post();
-        $posts = $postModel->getAll(); 
-
-        $rootPath = dirname(__DIR__, 2);
-        require_once $rootPath . '/app/views/layout/header.php';
-        require_once $rootPath . '/app/views/posts/index.php'; // Vista de tabla de gestión
-        require_once $rootPath . '/app/views/layout/footer.php';
+    // Formulario de creación
+    public function create()
+    {
+        // Control de Acceso (Solo Admin o Writer)
+        if (!in_array($_SESSION['role'] ?? '', ['admin', 'writer'])) {
+            header("Location: index.php");
+            exit;
+        }
+        $this->render('posts/create.php');
     }
 
-    public function create() {
-        $this->checkAdmin();
-        
-        require_once dirname(__DIR__) . '/Models/Category.php';
-        $categoryModel = new Category();
-        $categories = $categoryModel->getAll();
+    // Guardar Post + IMAGEN + WEBHOOK
+    public function store()
+    {
+        if (!in_array($_SESSION['role'] ?? '', ['admin', 'writer'])) {
+            header("Location: index.php");
+            exit;
+        }
 
-        $rootPath = dirname(__DIR__, 2);
-        require_once $rootPath . '/app/views/layout/header.php';
-        require_once $rootPath . '/app/views/posts/create.php';
-        require_once $rootPath . '/app/views/layout/footer.php';
-    }
+        $title = trim($_POST['title']);
+        $content = trim($_POST['content']);
+        $userId = $_SESSION['user_id'];
+        $imageUrl = null; // Por defecto nulo
 
-    public function store() {
-        $this->checkAdmin();
+        if ($title === '' || $content === '') {
+            $error = "Campos obligatorios";
+            return $this->render('posts/create.php', compact('error'));
+        }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitización básica de entrada
-            $title = trim(htmlspecialchars($_POST['title'] ?? '')); // XSS prevent at source, though output encoding is better
-            $content = trim(htmlspecialchars($_POST['content'] ?? ''));
-            $price = filter_var($_POST['price'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $category_id = filter_var($_POST['category_id'] ?? '', FILTER_SANITIZE_NUMBER_INT);
-            $specs = trim($_POST['specs'] ?? ''); // JSON raw string
-
-            
-            $errors = [];
-            if (empty($title)) $errors[] = "El título es obligatorio";
-            if (empty($content)) $errors[] = "El contenido es obligatorio";
-            if ($price < 0) $errors[] = "El precio no puede ser negativo";
-            if (empty($category_id)) $errors[] = "La categoría es obligatoria";
-
-            // Manejo de Imagen
-            $imageUrl = null;
-            if (isset($_FILES['image'])) {
-                try {
-                    require_once dirname(__DIR__) . '/utils/ImageUploader.php';
-                    $uploader = new ImageUploader();
-                    // BASE_URL se usa dentro de la clase, asegurar que esté definida o pasarla
-                    // La clase ImageUploader que creé usa BASE_URL.
-                    $imageUrl = $uploader->upload($_FILES['image']);
-                } catch (Exception $e) {
-                     $errors[] = $e->getMessage();
-                }
+        // --- SUBIDA DE IMAGEN ---
+        try {
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $uploader = new ImageUploader();
+                // Esto devuelve algo como 'public/uploads/foto123.jpg'
+                $imageUrl = $uploader->upload($_FILES['image']);
             }
 
-            if (empty($errors)) {
-                $postModel = new Post();
-                $data = [
-                    'title' => $title,
-                    'content' => $content,
-                    'price' => $price,
-                    'image_url' => $imageUrl,
-                    'specs' => !empty($specs) ? $specs : null, 
-                    'is_active' => 1,
-                    'user_id' => $_SESSION['user_id'],
-                    'category_id' => $category_id
-                ];
+            $postModel = new Post();
+            // Pasamos $imageUrl al modelo 
+            $postId = $postModel->create($title, $content, $userId, $imageUrl);
 
-                if ($postModel->create($data)) {
-                    $_SESSION['success_message'] = "Publicación creada correctamente.";
-                    header("Location: " . BASE_URL . "/public/post/manage");
-                    exit;
-                } else {
-                    $errors[] = "Error al guardar en la base de datos.";
-                }
-            }
+            // 3. ENVIAR AL WEBHOOK (Aquí estaba lo que faltaba)
+            $summary = substr(strip_tags($content), 0, 150) . '...';
+            $link = "http://localhost:8080/index.php?action=show_post&id=" . $postId;
+            $fullImageUrl = $imageUrl ? "http://localhost:8080/" . $imageUrl : "";
 
-            // Si hay errores
-            require_once dirname(__DIR__) . '/Models/Category.php';
-            $categoryModel = new Category();
-            $categories = $categoryModel->getAll();
-            $old = $_POST;
-            
-            $rootPath = dirname(__DIR__, 2);
-            require_once $rootPath . '/app/views/layout/header.php';
-            require_once $rootPath . '/app/views/posts/create.php';
-            require_once $rootPath . '/app/views/layout/footer.php';
+            // --- WEBHOOK A n8n ---
+            $this->sendWebhook('N8N_WEBHOOK_POST_CREATED', [
+                'id' => $postId,
+                'title' => $title,
+                'summary' => $summary,    // Nuevo: para el cuerpo del email
+                'link' => $link,          // Nuevo: para el botón "Leer más"
+                'image_url' => $fullImageUrl // Nuevo: ruta completa para que se vea la foto
+            ]);
+
+            header("Location: index.php");
+
+        } catch (Exception $e) {
+            // Si falla la subida o la BD, volvemos al formulario con el error
+            $error = $e->getMessage();
+            return $this->render('posts/create.php', compact('error'));
         }
     }
 
-    public function edit($id) {
-        $this->checkAdmin();
-        
+    // --- MÉTODOS AÑADIDOS (EDIT, UPDATE, DELETE) ---
+
+    // Formulario de edición
+    public function edit($id)
+    {
+        // 1. Verificar sesión
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+
         $postModel = new Post();
         $post = $postModel->findById($id);
 
         if (!$post) {
-            header("Location: " . BASE_URL . "/public/post/manage");
+            header("Location: index.php");
             exit;
         }
 
-        require_once dirname(__DIR__) . '/Models/Category.php';
-        $categoryModel = new Category();
-        $categories = $categoryModel->getAll();
+        // 2. Verificar permisos: Solo Admin o el Dueño del post
+        $isOwner = ($post['user_id'] == $_SESSION['user_id']);
+        $isAdmin = ($_SESSION['role'] === 'admin');
 
-        $rootPath = dirname(__DIR__, 2);
-        require_once $rootPath . '/app/views/layout/header.php';
-        require_once $rootPath . '/app/views/posts/edit.php';
-        require_once $rootPath . '/app/views/layout/footer.php';
+        if (!$isOwner && !$isAdmin) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $this->render('posts/edit.php', compact('post'));
     }
 
-    public function update($id) {
-        $this->checkAdmin();
+    // Actualizar Post
+    public function update($id)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $postModel = new Post();
+        $post = $postModel->findById($id);
+
+        // Verificar permisos nuevamente antes de guardar
+        $isOwner = ($post['user_id'] == $_SESSION['user_id']);
+        $isAdmin = ($_SESSION['role'] === 'admin');
+
+        if (!$isOwner && !$isAdmin) {
+            header("Location: index.php");
+            exit;
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $title = trim(htmlspecialchars($_POST['title'] ?? ''));
-            $content = trim(htmlspecialchars($_POST['content'] ?? ''));
-            $price = filter_var($_POST['price'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $category_id = filter_var($_POST['category_id'] ?? '', FILTER_SANITIZE_NUMBER_INT);
-            $specs = trim($_POST['specs'] ?? '');
-            
-            $errors = [];
-            if (empty($title)) $errors[] = "El título es obligatorio";
+            $title = trim($_POST['title']);
+            $content = trim($_POST['content']);
 
-            // Obtener post actual para imagen
-            $postModel = new Post();
-            $currentPost = $postModel->findById($id);
+            // Mantenemos la imagen vieja por defecto
+            $imageUrl = $post['image_url'];
 
-            // Manejo de Imagen
-            $imageUrl = $currentPost['image_url'] ?? null;
-            if (isset($_FILES['image'])) {
-                try {
-                    require_once dirname(__DIR__) . '/utils/ImageUploader.php';
+
+            try {
+                // Si el usuario sube una NUEVA imagen, la procesamos
+                if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                     $uploader = new ImageUploader();
-                    // Pasar imagen existente es opcional segun mi logica actual, pero el uploader
-                    // devuelve la nueva ruta si se sube.
-                    $uploadedUrl = $uploader->upload($_FILES['image'], $imageUrl);
-                    if ($uploadedUrl) {
-                        $imageUrl = $uploadedUrl;
-                    }
-                } catch (Exception $e) {
-                     $errors[] = $e->getMessage();
+                    $imageUrl = $uploader->upload($_FILES['image']);
                 }
-            }
 
-            if (empty($errors)) {
-                $data = [
-                    'title' => $title,
-                    'content' => $content,
-                    'price' => $price,
-                    'image_url' => $imageUrl,
-                    'specs' => !empty($specs) ? $specs : null, 
-                    'category_id' => $category_id
-                ];
+                // NOTA: Asegúrate de actualizar app/Models/Post.php para soportar esto:
+                $postModel->update($id, $title, $content, $imageUrl);
 
-                if ($postModel->update($id, $data)) {
-                    $_SESSION['success_message'] = "Publicación actualizada.";
-                    header("Location: " . BASE_URL . "/public/post/manage");
-                    exit;
-                }
+                header("Location: index.php?action=show_post&id=" . $id);
+
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                $this->render('posts/edit.php', compact('post', 'error'));
             }
-             header("Location: " . BASE_URL . "/public/post/edit/" . $id);
         }
     }
 
-    public function delete($id) {
-        $this->checkAdmin();
+    // Eliminar Post
+    public function delete($id)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php");
+            exit;
+        }
+
         $postModel = new Post();
-        $postModel->delete($id);
-        $_SESSION['success_message'] = "Publicación eliminada.";
-        header("Location: " . BASE_URL . "/public/post/manage");
-        exit;
+        $post = $postModel->findById($id);
+
+        $isOwner = ($post['user_id'] == $_SESSION['user_id']);
+        $isAdmin = ($_SESSION['role'] === 'admin');
+
+        if ($isOwner || $isAdmin) {
+            $postModel->delete($id);
+            // Opcional: Disparar webhook de borrado si quisieras
+        }
+
+        // Si venimos del admin, volver al admin, si no, al home
+        if ($isAdmin && strpos($_SERVER['HTTP_REFERER'] ?? '', 'admin') !== false) {
+            header("Location: index.php?action=admin_posts");
+        } else {
+            header("Location: index.php");
+        }
+    }
+
+    // Helper privado para enviar webhook
+    private function sendWebhook($envVar, $data)
+    {
+        $url = getenv($envVar);
+        $token = getenv('N8N_SHARED_TOKEN');
+
+        if ($url) {
+            $client = new HttpClient();
+            $client->post($url, [
+                'headers' => ['X-Shared-Token' => $token],
+                'json' => $data
+            ]);
+        }
     }
 }
+?>

@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__DIR__) . '/Config/config.php';
 require_once dirname(__DIR__) . '/Config/Database.php';
 
 echo "Updating database schema...\n";

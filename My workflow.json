@@ -1,0 +1,121 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST"
+        ],
+        "path": "post-published",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3f199c6e-5d45-4fd8-8821-5fafbe8cbfd9",
+      "name": "Webhook",
+      "webhookId": "344f6909-a7cd-4d72-94cf-11f5c1741269",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1d74c61e-08cc-4396-83ee-889415177787",
+              "leftValue": "={{ $json.headers[\"x-shared-token\"] }}",
+              "rightValue": "pass123",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a3211089-6b15-499b-accf-1f7e0900e49d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fromEmail": "mateoamaya118@gmail.com",
+        "toEmail": "mateoamaya118@gmail.com",
+        "subject": "=Nuevo Post Publicado: {{ $json.body.title }}",
+        "html": "=<div style=\"font-family: sans-serif; border: 1px solid #ccc; padding: 20px; border-radius: 8px;\">\n    <h2 style=\"color: #2d3748;\">Nuevo contenido en el Blog Robotix</h2>\n    \n    <img src=\"{{ $json.body.image_url }}\" style=\"width: 100%; max-width: 500px; border-radius: 5px; margin-bottom: 15px;\" />\n\n    <h3>{{ $json.body.title }}</h3>\n    \n    <p style=\"color: #4a5568;\">{{ $json.body.summary }}</p>\n    \n    <a href=\"{{ $json.body.link }}\" style=\"background-color: #3182ce; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;\">\n        Leer el post completo\n    </a>\n    \n    <p style=\"font-size: 12px; color: #999; margin-top: 20px;\">\n        Publicado por el usuario ID: {{ $json.body.user_id }}\n    </p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        432,
+        -16
+      ],
+      "id": "38ea8f26-96ea-4fd6-ac0a-20c7b1e35a4a",
+      "name": "Send email",
+      "webhookId": "a247032f-4141-4ae4-be03-b40cb6b384ab",
+      "credentials": {
+        "smtp": {
+          "id": "i42XD6dvP1XbB9re",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "dd90aada-44da-4c75-b3e0-ee6bfe69692f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dceb6769d6b568b10ee23844aea907bf8f9ffab798bebe0acc26a504b13e410a"
+  },
+  "id": "nzExihkzS6g_Kj9C63KkI",
+  "tags": []
+}

@@ -1,87 +1,66 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<?php include __DIR__ . '/../layout/header.php'; ?>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Gestión de Publicaciones</h1>
-        <a href="<?= BASE_URL ?>/public/post/create" class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition flex items-center">
-            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-            Crear Publicación
-        </a>
+    <div class="flex justify-between items-center mb-10">
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Últimas Publicaciones</h1>
+            <p class="mt-2 text-lg text-gray-500">Explora nuestros artículos sobre tecnología y desarrollo.</p>
+        </div>
+        
+        <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'writer'])): ?>
+            <a href="index.php?action=create_post" class="bg-blue-600 text-white px-5 py-3 rounded-lg shadow hover:bg-blue-700 transition flex items-center font-medium">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Crear Nuevo Post
+            </a>
+        <?php endif; ?>
     </div>
 
-    <!-- Mensajes Flash -->
-    <?php if (isset($_SESSION['success_message'])): ?>
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 shadow-sm" role="alert">
-            <p class="font-bold">¡Éxito!</p>
-            <p><?= htmlspecialchars($_SESSION['success_message']) ?></p>
+    <?php if (empty($posts)): ?>
+        <div class="text-center py-20 bg-gray-50 rounded-lg border border-gray-200 border-dashed">
+            <p class="text-xl text-gray-500">No hay publicaciones disponibles.</p>
+            <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'writer'])): ?>
+                <p class="mt-2 text-blue-600">¡Sé el primero en escribir algo!</p>
+            <?php endif; ?>
         </div>
-        <?php unset($_SESSION['success_message']); ?>
+    <?php else: ?>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <?php foreach ($posts as $post): ?>
+                <article class="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                    <?php if (!empty($post['image_url'])): ?>
+                        <div class="h-48 w-full overflow-hidden">
+                            <img src="<?= htmlspecialchars($post['image_url']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover">
+                        </div>
+                    <?php endif; ?>    
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span><?= date('M d, Y', strtotime($post['created_at'] ?? 'now')) ?></span>
+                            <?php if(isset($post['username'])): ?>
+                                <span class="mx-2">&bull;</span>
+                                <span class="text-blue-600 font-medium"><?= htmlspecialchars($post['username']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <a href="index.php?action=show_post&id=<?= $post['id'] ?>" class="block mt-2">
+                            <h2 class="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                                <?= htmlspecialchars($post['title']) ?>
+                            </h2>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                <?= htmlspecialchars(substr($post['content'], 0, 150)) ?>...
+                            </p>
+                        </a>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <a href="index.php?action=show_post&id=<?= $post['id'] ?>" class="text-blue-600 font-semibold hover:text-blue-800 text-sm">
+                                Leer artículo &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 
-    <div class="bg-white shadow overflow-hidden rounded-lg">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <?php if (empty($posts)): ?>
-                        <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
-                                No hay publicaciones registradas.
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($posts as $post): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                #<?= $post['id'] ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <?php if (!empty($post['image_url'])): ?>
-                                        <div class="flex-shrink-0 h-10 w-10 mr-4">
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<?= htmlspecialchars($post['image_url']) ?>" alt="">
-                                        </div>
-                                    <?php endif; ?>
-                                    <div>
-                                        <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($post['title']) ?></div>
-                                        <div class="text-xs text-gray-500 truncate w-40"><?= htmlspecialchars(substr($post['content'], 0, 50)) ?>...</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    <?= htmlspecialchars($post['category_name'] ?? 'Sin categoría') ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                                <?= number_format($post['price'], 2) ?> €
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <?php if ($post['is_active']): ?>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
-                                <?php else: ?>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactivo</span>
-                                <?php endif; ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="<?= BASE_URL ?>/public/post/edit/<?= $post['id'] ?>" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                <a href="<?= BASE_URL ?>/public/post/delete/<?= $post['id'] ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este post?')" class="text-red-600 hover:text-red-900">Eliminar</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
+
+<?php include __DIR__ . '/../layout/footer.php'; ?>

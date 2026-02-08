@@ -1,122 +1,133 @@
 <?php
-require_once dirname(__DIR__) . '/Models/User.php';
-require_once dirname(__DIR__) . '/Models/Post.php';
-require_once dirname(__DIR__) . '/Models/Comment.php';
-require_once dirname(__DIR__) . '/Models/Category.php';
+// Asegúrate de que las rutas coinciden con tu estructura /app
+require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Models/Post.php';
+require_once __DIR__ . '/../Models/Comment.php';
 
 class AdminController {
 
-    public function __construct() {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        
-        // Middleware de Auth y Rol
-        if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-            header('Location: ' . BASE_URL . '/public');
+    // Helper para cargar vistas (dentro de app/views)
+    protected function render($view, $data = []) {
+        extract($data);
+        // Ajuste de ruta: estamos en app/Controllers, bajamos a app/views
+        include __DIR__ . '/../Views/' . $view;
+    }
+
+    // Seguridad: Solo Admins
+    private function requireAdmin() {
+        if (($_SESSION['role'] ?? '') !== 'admin') {
+            header("Location: index.php");
             exit;
         }
     }
 
-    public function index() {
-        // Dashboard Stats
+    // --- DASHBOARD ---
+    public function dashboard() {
+        $this->requireAdmin();
+        
+        // Recopilamos estadísticas para las gráficas/tarjetas
         $userModel = new User();
         $postModel = new Post();
         $commentModel = new Comment();
 
+        // Nota: En un proyecto real haríamos un método count() en el modelo 
+        // para no traer todos los datos, pero esto sirve para la práctica.
         $stats = [
             'users' => count($userModel->getAll()),
             'posts' => count($postModel->getAll()),
-            'comments' => count($commentModel->getAll())
+            'comments' => count($commentModel->getAll() ?? [])
         ];
 
-        $this->render('dashboard', ['stats' => $stats]);
+        $this->render('admin/dashboard.php', compact('stats'));
     }
 
-    // --- USERS MANAGEMENT ---
-    public function users() {
+    // --- GESTIÓN DE USUARIOS ---
+    
+    // Listar usuarios
+    public function getUsers() {
+        $this->requireAdmin();
         $userModel = new User();
         $users = $userModel->getAll();
-        $this->render('users', ['users' => $users]);
+        $this->render('admin/users.php', compact('users'));
     }
 
-    public function deleteUser($id) {
-        $userModel = new User();
-        $userModel->delete($id);
-        header('Location: ' . BASE_URL . '/public/admin/users');
-        exit;
-    }
-
+    // Mostrar formulario de edición de rol
     public function editUser($id) {
+        $this->requireAdmin();
         $userModel = new User();
+        $user = $userModel->findById($id);
         
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'username' => $_POST['username'],
-                'email' => $_POST['email'],
-                'role_id' => $_POST['role_id']
-            ];
-            $userModel->update($id, $data);
-            header('Location: ' . BASE_URL . '/public/admin/users');
+        if (!$user) {
+            header("Location: index.php?action=admin_users");
             exit;
         }
 
-        $user = $userModel->findById($id);
-        $this->render('user_form', ['user' => $user]);
+        $this->render('admin/user_form.php', compact('user'));
     }
 
-
-    // --- POSTS MANAGEMENT - DELEGATED TO PostController ---
-    public function posts() {
-        // Redirigir a la gestión unificada en PostController
-        header('Location: ' . BASE_URL . '/public/post/manage');
-        exit;
+    // Procesar la actualización del usuario
+    public function updateUser($id) {
+        $this->requireAdmin();
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $role = $_POST['role'] ?? 'subscriber';
+            
+            $userModel = new User();
+            $userModel->updateRole($id, $role);
+            
+            header("Location: index.php?action=admin_users");
+            exit;
+        }
     }
 
-    public function createPost() {
-        header('Location: ' . BASE_URL . '/public/post/create');
-        exit;
+    // Borrar usuario
+    public function deleteUser($id) {
+        $this->requireAdmin();
+        // Evitar que el admin se borre a sí mismo
+        if ($id == $_SESSION['user_id']) {
+            // Podrías añadir un mensaje de error aquí
+            header("Location: index.php?action=admin_users");
+            exit;
+        }
+        
+        header("Location: index.php?action=admin_users");
     }
 
-    public function editPost($id) {
-        header('Location: ' . BASE_URL . '/public/post/edit/' . $id);
-        exit;
+    // --- GESTIÓN DE POSTS ---
+
+    // Listar posts (vista tabla)
+    public function getPosts() {
+        $this->requireAdmin();
+        $postModel = new Post();
+        $posts = $postModel->getAll(); // Reutilizamos el método que ya trae el nombre de usuario
+        $this->render('admin/posts.php', compact('posts'));
     }
 
+    // Borrar post desde el admin
     public function deletePost($id) {
+        $this->requireAdmin();
         $postModel = new Post();
-        $postModel->delete($id); // O redirigir a post/delete si existe, pero post/delete es una acción
-        // Como PostController::delete redirige, podemos llamar al modelo aquí y redirigir
-        header('Location: ' . BASE_URL . '/public/post/manage');
-        exit;
+        $postModel->delete($id);
+        header("Location: index.php?action=admin_posts");
     }
 
-    public function togglePost($id) {
-        $postModel = new Post();
-        $postModel->toggleStatus($id);
-        header('Location: ' . BASE_URL . '/public/post/manage');
-        exit;
-    }
+    // --- GESTIÓN DE COMENTARIOS ---
 
-    // --- COMMENTS MANAGEMENT ---
-    public function comments() {
+    // Listar comentarios (moderación)
+    public function getComments() {
+        $this->requireAdmin();
         $commentModel = new Comment();
-        $comments = $commentModel->getAll();
-        $this->render('comments', ['comments' => $comments]);
+        // Usamos el método especial que creamos para traer el título del post
+        $comments = $commentModel->getAll(); 
+        $this->render('admin/comments.php', compact('comments'));
     }
 
+    // Borrar comentario (moderación)
     public function deleteComment($id) {
+        $this->requireAdmin();
         $commentModel = new Comment();
         $commentModel->delete($id);
-        header('Location: ' . BASE_URL . '/public/admin/comments');
-        exit;
-    }
-
-    // Helper para renderizar vistas de admin
-    private function render($view, $data = []) {
-        extract($data);
-        $rootPath = dirname(__DIR__); // app
-        // Usamos el layout principal pero cargamos la vista de admin
-        require_once $rootPath . '/views/layout/header.php';
-        require_once $rootPath . '/views/admin/' . $view . '.php'; // Vistas en app/views/admin/
-        require_once $rootPath . '/views/layout/footer.php';
+        header("Location: index.php?action=admin_comments");
     }
 }
+?>
