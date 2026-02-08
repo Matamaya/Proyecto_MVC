@@ -10,28 +10,26 @@
 </head>
 
 <body class="bg-white font-sans flex flex-col min-h-screen">
-    <nav class="bg-blue-500 shadow-md sticky top-0 z-50 ">
+    <nav class="bg-slate-200 shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="flex flex-row justify-between h-16 items-center">
 
                 <div class="flex items-center align-middle">
                     <a href="<?= BASE_URL ?>/public" class="flex items-center">
-                        <span class="text-2xl font-extrabold text-slate-700 tracking-tight">Robotiz</span>
+                        <span class="text-2xl font-extrabold tracking-tight">Robotiz</span>
                     </a>
                 </div>
 
-                <div class="flex justify-between hidden sm:ml-16 sm:flex sm:space-x-5">
+                <div class="flex justify-between text-white-500 sm:ml-16 sm:flex sm:space-x-5">
                     <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Drones</a>
-                    <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Productos portátiles</a>
                     <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Robotica</a>
                     <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Accesorios</a>
                     <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Reacondicionados oficiales</a>
                     <a href="<?= BASE_URL ?>/public/about" class="text-sm font-medium text-gray-700 hover:text-gray-900">Sobre Nosotros</a>
 
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <a href="<?= BASE_URL ?>/public/admin" class="text-red-600 hover:text-red-800 text-sm font-medium">Panel General</a>
-                        <a href="<?= BASE_URL ?>/public/post/manage" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Gestionar Posts</a>
+                        <a href="<?= BASE_URL ?>/public/admin" class="text-teal-600 hover:text-teal-800 text-sm font-medium">Panel General</a>
                     <?php endif; ?>
                 </div>
 
@@ -66,7 +64,7 @@
                                 </button>
 
                                 <!-- Dropdown panel, hidden by default -->
-                                <div id="user-menu-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                                <div id="user-menu-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md bg-slate-200 shadow-lg py-1 ring-1 ring-slate-300 ring-opacity-5 focus:outline-none z-50" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                                     <div class="px-4 py-2 border-b border-gray-100">
                                         <p class="text-xs text-gray-500">Conectado como</p>
                                         <p class="text-sm font-bold text-gray-900 truncate"><?= htmlspecialchars($_SESSION['username']) ?></p>
@@ -102,7 +100,8 @@
             </div>
         </div>
 
-        <div class="sm:hidden hidden" id="mobile-menu">
+        <!-- MOBILE MENU -->
+        <!-- <div class="hidden sm:block" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
                 <a href="<?= BASE_URL ?>/public" class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
                 <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Categorías</a>
@@ -127,8 +126,7 @@
                     <a href="<?= BASE_URL ?>/public/auth/register" class="border-transparent text-blue-600 font-bold hover:bg-gray-50 hover:border-gray-300 block pl-3 pr-4 py-2 border-l-4 text-base">Registrarse</a>
                 <?php endif; ?>
             </div>
-        </div>
+        </div> -->
     </nav>
 
     <main class="flex-grow">
-        <div class="container mx-auto px-4 py-6">

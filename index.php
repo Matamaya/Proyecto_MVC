@@ -11,7 +11,7 @@ spl_autoload_register(function ($class_name) {
         'app/Controllers/',
         'app/Models/'
     ];
-    
+
     foreach ($directories as $directory) {
         if (file_exists($directory . $class_name . '.php')) {
             require_once $directory . $class_name . '.php';
@@ -22,3 +22,5 @@ spl_autoload_register(function ($class_name) {
 
 // Iniciar el Router
 $init = new Router();
+
+//TODO: lo he hecho con router pero creo que deberia de hcarlo con un action y swtich como el examen
