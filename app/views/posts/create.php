@@ -1,43 +1,48 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
 <div class="max-w-2xl mx-auto px-4 py-8">
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-xl font-bold text-gray-800">Nueva Publicación</h2>
-            <a href="index.php?action=posts" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</a>
+    <div class="bg-neutral-900 shadow-2xl rounded-2xl overflow-hidden border border-neutral-800">
+        <div class="bg-neutral-950 px-8 py-6 border-b border-neutral-800 flex justify-between items-center">
+            <h2 class="text-2xl font-black text-white tracking-tight">Nueva Publicación</h2>
+            <a href="index.php?action=posts"
+                class="text-gray-400 hover:text-white text-sm transition-colors">Cancelar</a>
         </div>
-        
-        <div class="p-6">
+
+        <div class="p-8">
             <?php if (isset($error)): ?>
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+                <div class="bg-red-900/20 border-l-4 border-red-500 text-red-400 p-4 mb-8 rounded-r">
                     <p><?= htmlspecialchars($error) ?></p>
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?action=store_post" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="index.php?action=store_post" method="POST" enctype="multipart/form-data" class="space-y-8">
                 <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Imagen de Portada (Opcional)</label>
+                    <label for="image" class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Imagen
+                        de Portada (Opcional)</label>
                     <input type="file" name="image" id="image" accept="image/*"
-                        class="w-full border-gray-300 rounded-md shadow-sm p-2 border bg-white">
-                    <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, WEBP. Máx: 2MB.</p>
-                </div>
-                
-                <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título del Artículo</label>
-                    <input type="text" name="title" id="title" required 
-                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border"
-                           placeholder="Ej: Introducción a Docker">
+                        class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer border border-neutral-700 rounded-lg bg-neutral-950 p-2">
+                    <p class="text-xs text-gray-500 mt-2">Formatos: JPG, PNG, WEBP. Máx: 2MB.</p>
                 </div>
 
                 <div>
-                    <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Contenido</label>
-                    <textarea name="content" id="content" rows="10" required 
-                              class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3 border"
-                              placeholder="Escribe aquí el contenido de tu post..."></textarea>
+                    <label for="title" class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Título
+                        del Artículo</label>
+                    <input type="text" name="title" id="title" required
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
+                        placeholder="Ej: Introducción a Docker">
                 </div>
 
-                <div class="flex items-center justify-end pt-4">
-                    <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-6 rounded hover:bg-blue-700 transition shadow">
+                <div>
+                    <label for="content"
+                        class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Contenido</label>
+                    <textarea name="content" id="content" rows="12" required
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
+                        placeholder="Escribe aquí el contenido de tu post..."></textarea>
+                </div>
+
+                <div class="flex items-center justify-end pt-4 border-t border-neutral-800">
+                    <button type="submit"
+                        class="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition-all shadow-lg transform hover:-translate-y-1">
                         Publicar
                     </button>
                 </div>

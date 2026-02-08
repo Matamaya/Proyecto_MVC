@@ -83,3 +83,22 @@ input:focus, textarea:focus {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px -10px rgba(129, 140, 248, 0.5);
 }
+
+/* DARK MODE / INVERT MODE logic requested */
+.invert-mode {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Re-invert media to look normal */
+.invert-mode img, 
+.invert-mode video,
+.invert-mode .bg-image-preserve {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* NavBar transition class */
+.nav-scrolled {
+    background-color: rgba(15, 23, 42, 0.9) !important; /* Dark Grey/Blue */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
