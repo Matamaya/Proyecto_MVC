@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-2xl mx-auto px-4 py-8">
+<div class="max-w-2xl mx-auto px-4 py-8 h-[100vh] mt-12">
     <div class="bg-neutral-900 shadow-2xl rounded-2xl overflow-hidden border border-neutral-800">
         <div class="bg-neutral-950 px-8 py-6 border-b border-neutral-800 flex justify-between items-center">
             <h2 class="text-2xl font-black text-white tracking-tight">Editar Publicación</h2>
@@ -16,7 +16,7 @@
                     <label for="title"
                         class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Título</label>
                     <input type="text" name="title" value="<?= htmlspecialchars($post['title']) ?>"
-                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 transition-all"
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white p-4 transition-all"
                         required>
                 </div>
 
@@ -24,12 +24,12 @@
                     <label for="content"
                         class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Contenido</label>
                     <textarea name="content" rows="12"
-                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 transition-all"
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white p-4 transition-all"
                         required><?= htmlspecialchars($post['content']) ?></textarea>
                 </div>
 
                 <div class="bg-neutral-950 p-6 rounded-lg border border-neutral-800">
-                    <label class="block text-sm font-bold text-orange-500 mb-4 uppercase tracking-wide">Imagen
+                    <label class="block text-sm font-bold text-blue-500 mb-4 uppercase tracking-wide">Imagen
                         Destacada</label>
 
                     <?php if (!empty($post['image_url'])): ?>
@@ -38,7 +38,7 @@
                                 class="h-32 w-32 object-cover rounded-lg border border-neutral-700 shadow-md">
                             <div class="flex items-center pt-2">
                                 <input type="checkbox" name="delete_image" id="delete_image" value="1"
-                                    class="w-5 h-5 text-orange-600 bg-neutral-900 border-neutral-600 rounded focus:ring-orange-500">
+                                    class="w-5 h-5 text-blue-600 bg-neutral-900 border-neutral-600 rounded focus:ring-blue-500">
                                 <label for="delete_image"
                                     class="ml-3 text-sm font-medium text-red-400 cursor-pointer hover:text-red-300">
                                     Eliminar imagen actual

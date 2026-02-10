@@ -22,14 +22,14 @@ class RagController {
             $retriever = new Retriever();
             $results = $retriever->search($question);
 
-            // 2. Construir contexto (Juntar los textos encontrados) [cite: 1214-1222]
+            // 2. Construir contexto (Juntar los textos encontrados)
             $context = "";
             foreach ($results as $r) {
                 $context .= "Título: " . $r['title'] . "\n";
                 $context .= "Contenido: " . substr($r['content'], 0, 300) . "...\n\n"; // Tomamos un fragmento
             }
 
-            // 3. Generar respuesta (Generation)
+            // 3. Generar respuesta
             $llm = new LLM();
             $answer = $llm->generate($question, $context);
 

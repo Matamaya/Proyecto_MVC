@@ -48,5 +48,25 @@ class User {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':role' => $role, ':id' => $id]);
     }
+
+    // Actualizar datos del usuario (Rol, Email, Nombre)
+    public function update($id, $username, $email, $role) {
+        $sql = "UPDATE users SET username = :username, email = :email, role = :role WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        
+        return $stmt->execute([
+            ':username' => $username,
+            ':email'    => $email,
+            ':role'     => $role,
+            ':id'       => $id
+        ]);
+    }
+
+    // Eliminar usuario por ID
+    public function delete($id) {
+        $sql = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([':id' => $id]);
+    }
 }
 ?>

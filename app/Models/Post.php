@@ -50,9 +50,14 @@ class Post
     // Actualizar Post
     public function update($id, $title, $content, $imageUrl)
     {
-        $sql = "UPDATE posts SET title = ?, content = ?, image_url = ? WHERE id = ?";
+        $sql = "UPDATE posts SET title = :title, content = :content, image_url = :image_url WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$title, $content, $imageUrl, $id]);
+        return $stmt->execute([
+            ':title'     => $title,
+            ':content'   => $content,
+            ':image_url' => $imageUrl,
+            ':id'        => $id
+        ]);
     }
 
     // Eliminar Post

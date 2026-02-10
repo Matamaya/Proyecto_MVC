@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 h-[70vh] mt-12">
     <h1 class="text-3xl font-black text-white mb-8 tracking-tight">Panel de Administración</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -11,7 +11,7 @@
             </div>
             <div class="bg-neutral-950 px-6 py-4 border-t border-neutral-800">
                 <a href="index.php?action=admin_users"
-                    class="text-sm font-bold text-orange-500 hover:text-orange-400 transition-colors flex items-center">
+                    class="text-sm font-bold text-blue-500 hover:text-blue-400 transition-colors flex items-center">
                     Gestionar Usuarios <span class="ml-1">&rarr;</span>
                 </a>
             </div>

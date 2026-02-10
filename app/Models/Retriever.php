@@ -13,7 +13,7 @@ class Retriever {
                 MATCH(title, content) AGAINST (:query IN NATURAL LANGUAGE MODE) as score 
                 FROM posts 
                 WHERE MATCH(title, content) AGAINST (:query IN NATURAL LANGUAGE MODE) 
-                ORDER BY score ASC 
+                ORDER BY score DESC 
                 LIMIT 5";
         
         $stmt = $this->db->prepare($sql);

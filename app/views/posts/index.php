@@ -1,11 +1,5 @@
-<?php
-// Break out of the container opened in header.php if needed (usually header closes its own if not fluid)
-// But assuming layout, we might need to close a div or start fresh.
-// Based on previous files, header often leaves a container open or we want full width.
-// The home.php started with closure.
-?>
 <?php include __DIR__ . '/../layout/header.php'; ?>
-</div><!-- Close the container from header.php if it exists, to allow full width hero -->
+</div>
 
 <style>
     /* Custom Utilities */
@@ -88,36 +82,28 @@
     }
 </style>
 
-<!-- HERO SECTION: SPLIT LAYOUT (OBELISK STYLE) -->
-<div class="relative w-full min-h-[90vh] bg-black flex flex-col lg:flex-row overflow-hidden">
+<!-- HERO SECTION: SPLIT LAYOUT -->
+<div class="relative w-full min-h-[90vh] bg-black flex flex-col lg:flex-row overflow-hidden mt-12">
 
     <!-- LEFT PANEL: TYPOGRAPHY -->
     <div
-        class="w-full lg:w-1/2 relative bg-black flex flex-col justify-center px-8 sm:px-12 md:px-20 lg:px-24 py-20 z-10 border-r border-white/5">
-        <div
-            class="absolute top-8 left-8 sm:left-12 flex space-x-6 text-xs font-mono text-gray-500 uppercase tracking-widest">
-            <span>Explora</span>
-            <span>Tecnología</span>
-            <span>Futuro</span>
-            <span>Comunidad</span>
-        </div>
-
+        class="w-full lg:w-1/2 relative flex flex-col justify-center px-8 sm:px-12 md:px-20 lg:px-24 py-20 z-10 border-r border-white/5">
         <div class="animate-enter">
             <h1 class="text-6xl sm:text-7xl lg:text-8xl font-bold text-white tracking-tighter leading-[0.9] mb-8">
                 Where <span
                     class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">innovation</span><br>
-                meets reality.
+                meets reality
             </h1>
             <p class="text-gray-400 text-lg sm:text-xl max-w-lg mb-12 font-light leading-relaxed">
-                Posee, controla y explora el futuro de la robótica y la realidad virtual.
-                Construido para pioneros, coleccionistas y visionarios de la Web3.
+                Explora, aprende y domina el futuro en tus manos.
+                Construido para entusiastas, coleccionistas y visionarios de la tecnología.
             </p>
 
             <div class="flex items-center gap-4 group">
                 <a href="#catalogo"
                     class="relative overflow-hidden bg-transparent border border-white/30 text-white px-8 py-4 text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
                     <span class="relative z-10 flex items-center gap-2">
-                        Entrar al Catálogo
+                        Ver Artículos
                         <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -145,79 +131,44 @@
             class="absolute bottom-8 left-8 sm:left-12 flex space-x-12 text-xs text-gray-600 uppercase tracking-wider font-mono">
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                Zero-Latency VR
+                Innovation for all
             </div>
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
-                    </path>
-                </svg>
-                AI Drone Fleet
-            </div>
+
         </div>
     </div>
 
     <!-- RIGHT PANEL: VISUALS -->
     <div
         class="w-full lg:w-1/2 relative bg-gradient-to-b from-slate-900 to-black overflow-hidden flex items-center justify-center min-h-[500px]">
-        <!-- Background Image with Blue Tint -->
         <div class="absolute inset-0">
-            <img src="/public/img/bg02.jpg" alt="Future Tech"
-                class="w-full h-full object-cover opacity-40 mix-blend-luminosity">
+            <img src="/public/img/bg02.jpg" alt="Future Tech" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-blue-900/40 mix-blend-overlay"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80"></div>
         </div>
 
-        <!-- Glowing Orb/Planet Centerpiece -->
-        <div
-            class="relative z-10 w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-black shadow-[0_0_100px_rgba(6,182,212,0.3)] flex items-center justify-center animate-float">
-            <div class="absolute inset-0 rounded-full border border-cyan-500/20 animate-pulse-glow"></div>
-            <div class="w-full h-full rounded-full overflow-hidden relative">
-                <img src="/public/img/bg04.jpg" alt="Orb"
-                    class="w-full h-full object-cover opacity-60 mix-blend-hard-light hover:scale-110 transition-transform duration-[5s]">
-                <div class="absolute inset-0 bg-gradient-to-tr from-cyan-900/50 to-blue-900/20"></div>
-            </div>
-
-            <!-- Floating Data Points -->
-            <div class="absolute -top-12 text-center">
-                <span class="text-[10px] text-cyan-300 font-mono uppercase tracking-widest block mb-1">Network</span>
-                <span class="text-white font-bold text-sm">Neural Link v2.0</span>
-            </div>
-
-            <div class="absolute -right-24 text-center">
-                <span class="text-[10px] text-cyan-300 font-mono uppercase tracking-widest block mb-1">Status</span>
-                <span class="text-white font-bold text-sm">Online</span>
-            </div>
-
-            <div class="absolute -left-20 text-center">
-                <span class="text-[10px] text-cyan-300 font-mono uppercase tracking-widest block mb-1">Sync</span>
-                <span class="text-white font-bold text-sm">99.9%</span>
-            </div>
-        </div>
-
-        <div class="absolute top-8 right-8 text-right">
-            <button
-                class="text-xs font-bold text-white border border-white/20 px-4 py-2 uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
-                Connect Wallet
-            </button>
-        </div>
     </div>
 </div>
 
-<!-- Categories Strip (Updated to Blue/Cyan) -->
 <div class="bg-black py-12 border-b border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-            class="flex justify-between items-center overflow-x-auto gap-8 pb-4 scrollbar-hide animate-enter delay-100">
+            class="flex justify-between items-center overflow-x-auto gap-8 pb-4 scrollbar-hide animate-enter delay-100 py-4">
             <?php
             $categories = [
-                ['name' => 'Mini', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
-                ['name' => 'Mini 2', 'icon' => 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z'],
-                ['name' => 'Mavic 3', 'icon' => 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8'],
-                ['name' => 'Air 2S', 'icon' => 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
-                ['name' => 'FPV', 'icon' => 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'],
-                ['name' => 'Inspire', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+                // Icono de IA (Cerebro/Chip)
+                ['name' => 'AI & ML', 'icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+                // Icono de VR (Gafas)
+                ['name' => 'VR / AR', 'icon' => 'M6 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm12 0c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z M7 8h10M4 10h16'],
+                // Icono de Robótica (Brazo o Bot)
+                ['name' => 'Robótica', 'icon' => 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z'],
+                // Icono de Drones (Aspas)
+                ['name' => 'Drones', 'icon' => 'M12 2l2 2-2 2-2-2 2-2zm0 16l2 2-2 2-2-2 2-2zm10-6l-2-2-2 2 2 2 2-2zM4 12l-2-2-2 2 2 2 2-2z M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0'],
+                // Icono de Cloud (Nube)
+                ['name' => 'Cloud', 'icon' => 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z'],
+                // Icono de Seguridad (Escudo)
+                ['name' => 'Ciberseg', 'icon' => 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'],
+                // Icono de Domótica (Casa conectada)
+                ['name' => 'Domótica', 'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'],
             ];
             foreach ($categories as $cat): ?>
                 <div class="group flex flex-col items-center cursor-pointer min-w-[80px]">
@@ -237,11 +188,11 @@
     </div>
 </div>
 
-<div class="container mx-auto px-4 py-16 space-y-20 bg-black" id="catalogo">
+<div class="w-full px-4 py-16 space-y-20 bg-black" id="catalogo">
 
     <?php
     $carousel_posts = $posts;
-    // Duplicate posts if not enough for carousel effect (only if we have posts)
+    // Duplicate posts if not enough for carousel effect 
     if (!empty($carousel_posts)) {
         while (count($carousel_posts) < 8) {
             $carousel_posts = array_merge($carousel_posts, $posts);
@@ -250,14 +201,14 @@
     }
     ?>
 
-    <!-- Novedades Carousel (Spectrum Style) -->
+    <!-- Novedades Carousel -->
     <div class="animate-enter delay-200">
         <div class="flex justify-between items-end mb-12 px-2">
             <div>
                 <span class="text-cyan-400 font-mono tracking-[0.2em] uppercase text-xs">Innovation Hub</span>
                 <h2 class="text-5xl md:text-7xl font-black text-white mt-2 uppercase tracking-tighter leading-none">
-                    Recent<br><span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Drops</span>
+                    Posts<br><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Recientes</span>
                 </h2>
             </div>
             <div class="hidden md:flex items-center gap-4">
@@ -341,36 +292,33 @@
     </div>
 
     <!-- Banner Split Section -->
-    <div class="relative overflow-hidden bg-black h-[600px] group border-t border-b border-white/5">
+    <div class="relative overflow-hidden h-[600px] group border-t border-b border-white/5">
         <video autoplay loop muted playsinline
             class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-700">
-            <source src="/public/img/drone_view.mp4" type="video/mp4">
+            <source src="/public/img/vrExa.mp4" type="video/mp4">
         </video>
 
         <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
 
-        <div class="absolute inset-0 flex flex-col justify-center px-8 md:px-24 max-w-7xl mx-auto z-10">
-            <span class="text-cyan-500 font-mono text-sm tracking-[0.3em] uppercase mb-4">/// System Override</span>
-            <h2 class="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter leading-[0.8]">
-                RECUVA<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-600">NEO</span>
+        <div class="absolute inset-0 flex flex-col justify-center md:px-24 max-w-7xl w-1/2 z-10">
+            <span class="text-cyan-500 font-mono text-sm tracking-[0.3em] uppercase mb-4">/// VR Tech</span>
+            <h2 class="text-8xl font-black text-white mb-8 tracking-tighter leading-[0.8]">
+                Tus ideas son<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-600 mt-3">
+                    realidad</span>
             </h2>
             <div class="flex items-center gap-8 border-l-2 border-cyan-500 pl-8">
                 <p class="text-gray-400 text-lg md:text-xl max-w-md font-light">
-                    Precisión más allá de la visión humana. Únete a la revolución de la vigilancia autónoma.
+                    La tecnología VR es la próxima revolución, permitiendo a los usuarios interactuar con el mundo
+                    virtual
+                    de manera inmersiva.
                 </p>
-                <button
-                    class="hidden md:block w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
             </div>
         </div>
     </div>
 </div>
 
-<!-- NEW DECORATIVE SECTION: Deep Atmosphere -->
+<!-- DECORATIVE SECTION-->
 <div class="relative py-32 bg-slate-900 overflow-hidden">
     <!-- Background Asset -->
     <div class="absolute inset-0">
@@ -381,67 +329,43 @@
     </div>
 
     <div class="relative z-10 container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
             <!-- Left: Big Text -->
             <div>
                 <h2
                     class="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 tracking-tighter mb-8 leading-tight">
-                    THE DEEP<br>PROTOCOL
+                    EL SALTO<br>CUANTICO
                 </h2>
                 <p class="text-cyan-200/60 text-xl font-light leading-relaxed max-w-xl">
-                    Imagina un mundo donde la latencia es cero y la realidad se fusiona con lo digital.
-                    Nuestros sistemas de enfriamiento líquido cuántico permiten un procesamiento de datos sin
-                    precedentes.
+                    Nos adentramos en la computación cuántica y los procesadores neuronales que potenciarán la IA del
+                    mañana.
                 </p>
 
                 <div class="mt-12 grid grid-cols-2 gap-8">
                     <div>
-                        <span class="text-4xl font-mono text-white block mb-2">8.2<span
-                                class="text-sm text-cyan-500 align-top">TB/s</span></span>
-                        <span class="text-xs uppercase tracking-widest text-slate-500">Bandwidth</span>
+                        <span class="text-4xl font-mono text-white block mb-2">50+<span
+                                class="text-sm text-cyan-500 align-top">Qubits</span></span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500">Procesadores</span>
                     </div>
                     <div>
                         <span class="text-4xl font-mono text-white block mb-2">
-                            <0.1<span class="text-sm text-cyan-500 align-top">ms
-                        </span></span>
-                        <span class="text-xs uppercase tracking-widest text-slate-500">Latency</span>
+                            6G<span class="text-sm text-cyan-500 align-top">
+                            </span></span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500">Conexión</span>
                     </div>
-                </div>
-            </div>
 
-            <!-- Right: Visual Cards (Dummy) -->
-            <div class="relative">
-                <div
-                    class="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg opacity-20 blur-xl animate-pulse">
+
                 </div>
-                <div
-                    class="bg-black/50 backdrop-blur-md border border-white/10 p-8 rounded-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-50">
-                        <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl text-white font-bold mb-4">Neural Architecture</h3>
-                    <div class="space-y-4">
-                        <div class="h-2 bg-slate-800 rounded overflow-hidden">
-                            <div class="h-full bg-cyan-500 w-3/4"></div>
-                        </div>
-                        <div class="h-2 bg-slate-800 rounded overflow-hidden">
-                            <div class="h-full bg-purple-500 w-1/2"></div>
-                        </div>
-                        <div class="h-2 bg-slate-800 rounded overflow-hidden">
-                            <div class="h-full bg-blue-500 w-5/6"></div>
-                        </div>
-                    </div>
-                    <p class="mt-6 text-sm text-slate-400 font-mono">
-                        > System_Check: STATUS_OK<br>
-                        > Cooling_Core: ACTIVE<br>
-                        > Uplink: ESTABLISHED
-                    </p>
-                </div>
+
+            </div>
+            <!-- RIGHT -->
+            <div
+                class="relative w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden border border-white/5 bg-black/50 shadow-2xl shadow-cyan-900/20 group">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                <video autoplay loop muted playsinline
+                    class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-lighten group-hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-110">
+                    <source src="/public/img/technoGear.mp4" type="video/mp4">
+                </video>
             </div>
 
         </div>
@@ -452,13 +376,9 @@
 <div class="animate-enter delay-300 py-24 px-4 container mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
         <div>
-            <span class="text-purple-400 font-bold tracking-widest uppercase text-xs mb-2 block">Exclusive
-                Access</span>
-            <h2 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tight">Top Sellers</h2>
+            <span class="text-purple-400 font-bold tracking-widest uppercase text-xs mb-2 block">Editor's Choice</span>
+            <h2 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tight">Destacados</h2>
         </div>
-        <a href="#"
-            class="text-sm font-bold text-white border-b border-white pb-1 hover:text-cyan-400 hover:border-cyan-400 transition-colors">VIEW
-            ALL COLLECTION</a>
     </div>
 
     <?php if (empty($carousel_posts)): ?>
@@ -479,8 +399,8 @@
 
                     <div class="flex-grow flex flex-col px-2">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-mono text-gray-500">#EF-0<?= $post['id'] ?></span>
-                            <span class="text-xs font-bold text-cyan-500 uppercase">In Stock</span>
+                            <span class="text-xs font-mono text-gray-500">#0<?= $post['id'] ?></span>
+                            <span class="text-xs font-bold text-cyan-500 uppercase">Tendencia</span>
                         </div>
 
                         <h3 class="text-xl font-bold text-white leading-tight mb-2 group-hover:text-cyan-400 transition-colors">
@@ -507,9 +427,9 @@
                     </path>
                 </svg>
             </div>
-            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">Global Shipping</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Delivery to 190+ countries. Customs handled via blockchain
-                verification.</p>
+            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">Análisis Imparciales</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">No tenemos filtros, la objetividad y transparencia es
+                nuestro eslogan</p>
         </div>
         <div class="p-8 group hover:bg-neutral-900/50 rounded-2xl transition-colors">
             <div class="text-cyan-500 mb-4 opacity-70 group-hover:opacity-100 transition-opacity">
@@ -519,9 +439,9 @@
                     </path>
                 </svg>
             </div>
-            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">Secure Warranty</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Smart contract based warranties. Immutable and transferable
-                ownership.</p>
+            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">Guías y Tutoriales</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Aprende a programar tu primer Arduino, configurar tu Home
+                Assistant o entrenar modelos de IA.</p>
         </div>
         <div class="p-8 group hover:bg-neutral-900/50 rounded-2xl transition-colors">
             <div class="text-cyan-500 mb-4 opacity-70 group-hover:opacity-100 transition-opacity">
@@ -531,9 +451,9 @@
                     </path>
                 </svg>
             </div>
-            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">24/7 Support</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">AI-powered concierge available instantly. Human experts on
-                standby.</p>
+            <h3 class="font-bold text-lg text-white mb-2 uppercase tracking-wide">Comunidad Tech</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Únete al debate en los comentarios. Conecta con ingenieros,
+                makers y entusiastas de todo el mundo.</p>
         </div>
     </div>
 </div>

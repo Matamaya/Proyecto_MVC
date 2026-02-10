@@ -81,5 +81,3 @@ volumes:
 networks:
   mvc_net:
     driver: bridge
-
-## levantar el entorno con: docker-compose up -d --build

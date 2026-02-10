@@ -8,12 +8,15 @@
 
 /* RESET Y VARIABLES MODERNAS */
 :root {
-    --bg-dark: #0f172a;       /* Azul muy oscuro (Casi negro) */
+    --bg-dark: #0d111a;       /* Azul muy oscuro (Casi negro) */
     --bg-card: #1e293b;       /* Azul grisáceo para tarjetas */
     --text-main: #f8fafc;     /* Blanco roto */
     --text-muted: #94a3b8;    /* Gris suave */
     --accent: #818cf8;        /* Índigo pastel (Neón suave) */
     --accent-hover: #6366f1;
+    
+    --bg-light: #f8fafc;
+    --bg-card-light: #f1f5f9;
 }
 
 body {
@@ -21,6 +24,7 @@ body {
     color: var(--text-main);
     font-family: 'Inter', system-ui, sans-serif; /* Fuente limpia */
     line-height: 1.6;
+    margin: none;
 }
 
 /* CLASE GLASSMORPHISM (Para el login y header) */
@@ -84,21 +88,192 @@ input:focus, textarea:focus {
     box-shadow: 0 10px 20px -10px rgba(129, 140, 248, 0.5);
 }
 
-/* DARK MODE / INVERT MODE logic requested */
-.invert-mode {
-    filter: invert(1) hue-rotate(180deg);
+/* DARK MODE (Default) / LIGHT MODE (Class-based) */
+
+/* Light Mode Overrides */
+.light-mode {
+    --bg-current: var(--bg-light);
+    --text-current: #0f172a;
+    --card-bg-light: #ffffff;
+    --border-light: #e2e8f0;
 }
 
-/* Re-invert media to look normal */
-.invert-mode img, 
-.invert-mode video,
-.invert-mode .bg-image-preserve {
-    filter: invert(1) hue-rotate(180deg);
+/* Apply Body Base */
+.light-mode body {
+    background-color: var(--bg-current);
+    color: var(--text-current);
 }
 
-/* NavBar transition class */
-.nav-scrolled {
-    background-color: rgba(15, 23, 42, 0.9) !important; /* Dark Grey/Blue */
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* 
+   OVERRIDE UTILITIES FOR LIGHT MODE 
+   Flip standard "Dark Mode" classes to Light equivalents
+*/
+
+/* Text Flips (White -> Dark) locally */
+.light-mode .text-white {
+    color: #0f172a;
 }
+.light-mode .text-gray-300 {
+    color: #334155;
+}
+.light-mode .text-gray-400 {
+    color: #475569;
+}
+.light-mode .text-gray-500 {
+    color: #64748b;
+}
+
+/* Card/Background Flips (Dark -> White/Light) */
+.light-mode .bg-neutral-900,
+.light-mode .bg-neutral-950 {
+    background-color: var(--card-bg-light);
+    color: var(--text-current);
+    border-color: var(--border-light);
+}
+
+/* Hover effects adaptation */
+.light-mode .hover\:bg-white\/5:hover {
+    background-color: rgba(0,0,0, 0.05);
+}
+.light-mode .hover\:bg-white\/10:hover {
+    background-color: rgba(0,0,0, 0.1);
+}
+.light-mode .border-white\/5,
+.light-mode .border-white\/10,
+.light-mode .border-neutral-800 {
+    border-color: var(--border-light);
+}
+
+/* 
+   EXCEPTIONS / "DARK ZONES"
+   Preserve dark styling for Navbar, Hero (bg-black), Videos, etc. 
+   User request: "Navbar bg-slate siempre", "Images/Other sections neutral"
+*/
+
+/* 
+   EXCEPTIONS / "DARK ZONES"
+   User request: "Navbar lighter blue", "Buttons text white", "Posts index white/light", "Images untouched"
+*/
+
+/* Navbar - Light Mode: Lighter Blue */
+.light-mode nav#main-navbar {
+    background-color: #2563eb !important; /* Blue-600 */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure Text stays WHITE on Blue backgrounds (Navbar, Buttons, Badges) */
+.light-mode nav .text-white,
+.light-mode nav .text-gray-300, 
+.light-mode .bg-blue-600,
+.light-mode .bg-blue-500,
+.light-mode .text-white-on-blue {
+    color: #ffffff !important;
+}
+
+/* Hover states for navbar links */
+.light-mode nav .hover\:text-white:hover {
+    color: #ffffff !important;
+}
+.light-mode nav .text-gray-300:hover {
+    color: #e2e8f0 !important;
+}
+
+/* POSTS INDEX / SECTIONS - Flip Dark Backgrounds to Light */
+.light-mode .bg-black {
+    background-color: #ffffff !important;
+    color: var(--text-current);
+}
+
+.light-mode .bg-slate-900,
+.light-mode .bg-neutral-900, 
+.light-mode .bg-neutral-950 {
+    background-color: #f8fafc !important; /* Slate-50 */
+    color: var(--text-current);
+}
+
+/* Fix borders on light backgrounds */
+.light-mode .border-white\/5,
+.light-mode .border-white\/10,
+.light-mode .border-neutral-800 {
+    border-color: #e2e8f0 !important; /* Slate-200 */
+}
+
+/* Gradient overrides (e.g. Hero Right Panel) */
+.light-mode .bg-gradient-to-b.from-slate-900.to-black {
+    background: linear-gradient(to bottom, #f1f5f9, #ffffff) !important;
+}
+
+/* Typography on Light Backgrounds */
+.light-mode h1, 
+.light-mode h2, 
+.light-mode h3, 
+.light-mode .text-white {
+    color: #0f172a !important; /* Slate-900 */
+}
+
+/* Fix "Quantum Leap" Section Text Visibility */
+.light-mode .text-cyan-200\/60,
+.light-mode .text-cyan-200 {
+    color: #475569 !important; /* Slate-600 */
+    opacity: 1 !important;
+}
+.light-mode .text-cyan-500 {
+    color: #0284c7 !important; /* Sky-600 (Darker for contrast) */
+}
+.light-mode .text-slate-500 {
+    color: #64748b !important;
+}
+
+/* Fix Gradient Text (from-white usually disappears on white bg) */
+.light-mode .text-transparent.bg-gradient-to-br.from-white,
+.light-mode .text-transparent.bg-clip-text {
+    background-image: linear-gradient(to bottom right, #0f172a, #334155) !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* EXCEPTIONS: Re-force White Text specifically for Blue/Dark UI elements */
+.light-mode .bg-blue-600 .text-white,
+.light-mode .bg-blue-800 .text-white,
+.light-mode nav .font-bold, /* Robotix Logo */
+.light-mode nav a {
+    color: #ffffff !important;
+}
+.light-mode nav .text-gray-300 {
+   color: rgba(255,255,255,0.9) !important;
+}
+
+/* BUTTONS & HOVERS (User Request: "Azul claro sutil + Texto blanco") */
+.light-mode a.bg-blue-600:hover,
+.light-mode a.bg-blue-800:hover,
+.light-mode button:hover,
+.light-mode nav a:hover {
+    background-color: #60a5fa !important; /* Blue-400 */
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+}
+
+/* Form Styling (Kept from previous step) */
+.light-mode input, 
+.light-mode textarea,
+.light-mode select {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+.light-mode input:focus, 
+.light-mode textarea:focus,
+.light-mode select:focus {
+    background-color: #ffffff !important;
+    border-color: #3b82f6 !important;     /* Blue-500 */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+.light-mode input::placeholder,
+.light-mode textarea::placeholder {
+    color: #94a3b8 !important; /* Slate-400 */
+}
+
+

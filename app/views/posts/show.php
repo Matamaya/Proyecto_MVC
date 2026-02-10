@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-4xl mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto px-4 py-8 h-full mt-12">
 
     <article class="bg-neutral-900 rounded-lg shadow-xl overflow-hidden mb-8 border border-neutral-800">
         <?php if (!empty($post['image_url'])): ?>
@@ -17,7 +17,7 @@
                 </h1>
                 <div class="flex items-center text-gray-400 text-sm">
                     <span
-                        class="font-bold text-orange-500 mr-2 uppercase tracking-wide"><?= htmlspecialchars($post['username']) ?></span>
+                        class="font-bold text-blue-500 mr-2 uppercase tracking-wide"><?= htmlspecialchars($post['username']) ?></span>
                     <span>&bull;</span>
                     <span class="ml-2"><?= date('d/m/Y', strtotime($post['created_at'] ?? 'now')) ?></span>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="mb-4">
                     <label class="block text-gray-400 text-sm font-bold mb-2">Deja tu opinión</label>
                     <textarea name="text" rows="3"
-                        class="w-full p-3 bg-neutral-950 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        class="w-full p-3 bg-neutral-950 border border-neutral-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Escribe aquí..." required></textarea>
                 </div>
                 <button type="submit"
@@ -58,7 +58,7 @@
             </form>
         <?php else: ?>
             <div class="bg-neutral-950 border border-neutral-800 text-gray-300 p-6 rounded-lg mb-6 text-center">
-                <a href="index.php?action=login" class="font-bold text-orange-500 hover:text-orange-400">Inicia sesión</a>
+                <a href="index.php?action=login" class="font-bold text-blue-500 hover:text-blue-400">Inicia sesión</a>
                 para participar en la conversación.
             </div>
         <?php endif; ?>
@@ -78,8 +78,12 @@
 
                         <?php if (isset($_SESSION['user_id']) && ($_SESSION['role'] === 'admin' || $_SESSION['user_id'] == $comment['user_id'])): ?>
                             <div class="mt-2 text-right">
-                                <a href="index.php?action=delete_comment&id=<?= $comment['id'] ?>"
-                                    class="text-red-500 text-xs hover:text-red-400 transition-colors">Eliminar</a>
+                                <form action="index.php?action=delete_comment" method="POST" class="inline" onsubmit="return confirm('¿Eliminar comentario?');">
+    <input type="hidden" name="id" value="<?= $comment['id'] ?>">
+    <button type="submit" class="text-red-500 text-xs hover:text-red-400 transition-colors bg-transparent border-0 cursor-pointer p-0 underline">
+        Eliminar
+    </button>
+</form>
                             </div>
                         <?php endif; ?>
                     </div>

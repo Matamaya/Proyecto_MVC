@@ -5,12 +5,10 @@ require_once __DIR__ . '/../Models/Comment.php';
 
 class PostController
 {
-
     // Helper para renderizar vistas
     protected function render($view, $data = [])
     {
         extract($data);
-        // Apuntando a app/Views
         include __DIR__ . '/../Views/' . $view;
     }
 
@@ -70,15 +68,13 @@ class PostController
         try {
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $uploader = new ImageUploader();
-                // Esto devuelve algo como 'public/uploads/foto123.jpg'
                 $imageUrl = $uploader->upload($_FILES['image']);
             }
 
             $postModel = new Post();
-            // Pasamos $imageUrl al modelo 
             $postId = $postModel->create($title, $content, $userId, $imageUrl);
 
-            // 3. ENVIAR AL WEBHOOK (Aquí estaba lo que faltaba)
+            // 3. ENVIAR AL WEBHOOK
             $summary = substr(strip_tags($content), 0, 150) . '...';
             $link = "http://localhost:8080/index.php?action=show_post&id=" . $postId;
             $fullImageUrl = $imageUrl ? "http://localhost:8080/" . $imageUrl : "";
@@ -87,9 +83,9 @@ class PostController
             $this->sendWebhook('N8N_WEBHOOK_POST_CREATED', [
                 'id' => $postId,
                 'title' => $title,
-                'summary' => $summary,    // Nuevo: para el cuerpo del email
-                'link' => $link,          // Nuevo: para el botón "Leer más"
-                'image_url' => $fullImageUrl // Nuevo: ruta completa para que se vea la foto
+                'summary' => $summary,    // el cuerpo del email
+                'link' => $link,          // el botón "Leer más"
+                'image_url' => $fullImageUrl // ruta completa para que se vea la foto
             ]);
 
             header("Location: index.php");
@@ -100,8 +96,6 @@ class PostController
             return $this->render('posts/create.php', compact('error'));
         }
     }
-
-    // --- MÉTODOS AÑADIDOS (EDIT, UPDATE, DELETE) ---
 
     // Formulario de edición
     public function edit($id)

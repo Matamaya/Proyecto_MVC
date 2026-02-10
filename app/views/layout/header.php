@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="http://localhost:5173/public/css/app.css">
 </head>
 
-<body class="bg-black text-white font-sans flex flex-col min-h-screen selection:bg-orange-500 selection:text-white">
+<body class="text-white font-sans flex flex-col min-h-screen selection:bg-blue-500 selection:text-white">
 
-    <nav id="main-navbar" class="fixed w-full z-50 transition-colors duration-300 bg-transparent">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav id="main-navbar" class="fixed w-full z-50 bg-slate-900">
+        <div class="w-full mx-3 px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
 
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="index.php?action=posts" class="text-2xl font-bold text-blue-400 tracking-tighter">
-                        BlogMVC
+                    <a href="index.php?action=posts" class="text-2xl font-bold text-slate-50 tracking-tighter">
+                        Robotix
                     </a>
                 </div>
 
@@ -34,24 +34,25 @@
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
                             <a href="index.php?action=admin_dashboard"
-                                class="text-red-600 hover:text-red-800 px-3 py-2 rounded-md text-sm font-medium border border-red-100 bg-red-50">
-                                Admin
+                                class="text-white-500 hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium bg-blue-800">
+                                Panel Admin
                             </a>
                         <?php endif; ?>
 
                         <span class="text-gray-500 text-sm">|</span>
-                        <span class="text-gray-900 font-semibold text-sm">
+                        <span class="text-gray-300 font-semibold text-sm">
+                            User:
                             <?= htmlspecialchars($_SESSION['username']) ?>
                         </span>
                         <a href="index.php?action=logout"
-                            class="text-gray-500 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
+                            class="text-white-500 hover:bg-red-700 px-3 py-2 rounded-md text-sm font-medium bg-blue-800">
                             Salir
                         </a>
                     <?php else: ?>
                         <a href="index.php?action=login"
                             class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Login</a>
                         <a href="index.php?action=register"
-                            class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition-transform hover:-translate-y-0.5">Registro</a>
+                            class="hover:bg-slate-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition-transform hover:-translate-y-0.5">Registro</a>
                     <?php endif; ?>
 
                     <!-- Dark Mode Toggle (Invert) -->
@@ -69,4 +70,4 @@
         </div>
     </nav>
 
-    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="w-full">

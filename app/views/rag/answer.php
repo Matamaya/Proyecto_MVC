@@ -1,14 +1,14 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-3xl mx-auto px-4 py-12">
+<div class="max-w-3xl mx-auto px-4 py-12 my-12 h-[60vh]">
     <div class="mb-8 p-6 bg-neutral-900 rounded-2xl border border-neutral-800">
-        <h2 class="text-xs font-bold text-orange-500 uppercase tracking-widest mb-3">Tu Pregunta</h2>
+        <h2 class="text-xs font-bold text-blue-500 uppercase tracking-widest mb-3">Tu Pregunta</h2>
         <p class="text-2xl text-white font-serif italic leading-relaxed">"<?= htmlspecialchars($question) ?>"</p>
     </div>
 
     <div
-        class="bg-neutral-900 p-8 rounded-2xl shadow-2xl border-l-4 border-orange-500 mb-8 border-y border-r border-neutral-800">
-        <h2 class="text-xl font-bold text-orange-400 mb-6 flex items-center">
+        class="bg-neutral-900 p-8 rounded-2xl shadow-2xl border-l-4 border-blue-500 mb-8 border-y border-r border-neutral-800">
+        <h2 class="text-xl font-bold text-blue-400 mb-6 flex items-center">
             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
                 </path>
@@ -26,7 +26,7 @@
             <ul class="space-y-3">
                 <?php foreach ($results as $res): ?>
                     <li class="flex items-start">
-                        <span class="text-orange-500 mr-2 mt-1">•</span>
+                        <span class="text-blue-500 mr-2 mt-1">•</span>
                         <div>
                             <a href="index.php?action=show_post&id=<?= $res['id'] ?>"
                                 class="text-blue-400 hover:text-white transition-colors font-medium text-lg">

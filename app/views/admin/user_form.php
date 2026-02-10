@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-md mx-auto py-12 px-4">
+<div class="max-w-md mx-auto py-12 px-4 h-[60vh] mt-12">
     <div class="bg-neutral-900 shadow-2xl rounded-2xl overflow-hidden border border-neutral-800">
         <div class="px-8 py-8">
             <h3 class="text-2xl font-black text-white mb-6 tracking-tight">Editar Usuario</h3>
@@ -19,11 +19,11 @@
                 </div>
 
                 <div>
-                    <label for="role" class="block text-sm font-bold text-orange-500 uppercase tracking-wide mb-2">Rol
+                    <label for="role" class="block text-sm font-bold text-blue-500 uppercase tracking-wide mb-2">Rol
                         del Sistema</label>
                     <div class="relative">
                         <select name="role" id="role"
-                            class="block w-full py-3 px-4 border border-neutral-700 bg-neutral-950 text-white rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm appearance-none cursor-pointer hover:border-orange-500 transition-colors">
+                            class="block w-full py-3 px-4 border border-neutral-700 bg-neutral-950 text-white rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm appearance-none cursor-pointer hover:border-blue-500 transition-colors">
                             <option value="subscriber" <?= $user['role'] === 'subscriber' ? 'selected' : '' ?>>Subscriber
                                 (Lector)</option>
                             <option value="writer" <?= $user['role'] === 'writer' ? 'selected' : '' ?>>Writer (Autor)

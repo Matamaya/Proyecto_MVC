@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-black text-white tracking-tight">Gestión de Publicaciones</h1>
         <a href="index.php?action=create_post"
-            class="bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-2 rounded-full hover:from-orange-700 hover:to-red-700 text-sm font-bold shadow-lg transform hover:-translate-y-1 transition-all">
+            class="bg-gradient-to-r from-blue-600 to-red-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-red-700 text-sm font-bold shadow-lg transform hover:-translate-y-1 transition-all">
             + Nuevo Post
         </a>
     </div>
@@ -32,7 +32,8 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono"><?= $post['id'] ?></td>
                             <td class="px-6 py-4">
                                 <div class="text-sm font-bold text-white truncate max-w-xs">
-                                    <?= htmlspecialchars($post['title']) ?></div>
+                                    <?= htmlspecialchars($post['title']) ?>
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                                 <?= htmlspecialchars($post['username'] ?? 'Desconocido') ?>

@@ -100,6 +100,10 @@ switch ($action) {
     case 'admin_posts':
         (new AdminController())->getPosts();
         break;
+    case 'admin_delete_post':
+        $id = $_GET['id'] ?? null;
+        if ($id) (new AdminController())->deletePost($id);
+        break;
     // Comentarios (Moderación)
     case 'admin_comments':
         (new AdminController())->getComments();

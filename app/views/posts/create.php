@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="max-w-2xl mx-auto px-4 py-8">
+<div class="max-w-2xl mx-auto px-4 py-8 h-[100vh] mt-12">
     <div class="bg-neutral-900 shadow-2xl rounded-2xl overflow-hidden border border-neutral-800">
         <div class="bg-neutral-950 px-8 py-6 border-b border-neutral-800 flex justify-between items-center">
             <h2 class="text-2xl font-black text-white tracking-tight">Nueva Publicación</h2>
@@ -28,7 +28,7 @@
                     <label for="title" class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Título
                         del Artículo</label>
                     <input type="text" name="title" id="title" required
-                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
                         placeholder="Ej: Introducción a Docker">
                 </div>
 
@@ -36,7 +36,7 @@
                     <label for="content"
                         class="block text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">Contenido</label>
                     <textarea name="content" id="content" rows="12" required
-                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
+                        class="w-full bg-neutral-950 border border-neutral-700 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white p-4 placeholder-gray-600 transition-all"
                         placeholder="Escribe aquí el contenido de tu post..."></textarea>
                 </div>
 
